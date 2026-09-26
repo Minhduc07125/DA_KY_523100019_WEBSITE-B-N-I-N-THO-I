@@ -26,7 +26,7 @@
                <button id="search-button">Tìm kiếm</button>
             </div>
 
-            <div class="cart">
+            <div class="cart" id="cart-button">
                 🛒 Giỏ hàng (<span id="cart-count">0</span>)
             </div>
 
@@ -99,6 +99,26 @@
         </div>
 
     </main>
+
+    <!-- GIỎ HÀNG -->
+<div id="cart-modal" class="cart-modal">
+    <div class="cart-content">
+        <span id="close-cart" class="close-cart">&times;</span>
+
+        <h2>🛒 Giỏ hàng của bạn</h2>
+
+        <div id="cart-items">
+            <p>Giỏ hàng đang trống.</p>
+        </div>
+
+        <div class="cart-total">
+            <strong>Tổng tiền: <span id="cart-total">0đ</span></strong>
+        </div>
+
+        <button id="checkout-button">Đặt hàng</button>
+    </div>
+</div>
+
 
     <!-- FOOTER -->
     <footer>
