@@ -3,81 +3,123 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Phone Store - Website bán điện thoại</title>
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-    <!-- Kết nối CSS -->
-    <link rel="stylesheet" href="css/style.css">
+    <title>
+        Phone Store - Website bán điện thoại
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="css/style.css"
+    >
 </head>
+
 
 <body>
 
-    <!-- =========================================
+    <!-- ==================================================
          HEADER
-    ========================================== -->
+    =================================================== -->
+
     <header>
+
         <div class="container header-content">
 
             <div class="logo">
                 📱 Phone Store
             </div>
 
+
             <div class="search-box">
+
                 <input
                     type="text"
                     id="search-input"
                     placeholder="Bạn muốn tìm điện thoại gì?"
                 >
 
-                <button id="search-button">
+                <button
+                    type="button"
+                    id="search-button"
+                >
                     Tìm kiếm
                 </button>
+
             </div>
 
-            <div class="cart" id="cart-button">
+
+            <div
+                class="cart"
+                id="cart-button"
+            >
                 🛒 Giỏ hàng
                 (<span id="cart-count">0</span>)
             </div>
 
         </div>
+
     </header>
 
 
-    <!-- =========================================
+
+    <!-- ==================================================
          MENU
-    ========================================== -->
+    =================================================== -->
+
     <nav>
+
         <ul>
+
             <li>
-                <a href="#">Trang chủ</a>
+                <a href="#">
+                    Trang chủ
+                </a>
             </li>
 
             <li>
-                <a href="#products">Điện thoại</a>
+                <a href="#products">
+                    Điện thoại
+                </a>
             </li>
 
             <li>
-                <a href="#">Phụ kiện</a>
+                <a href="#">
+                    Phụ kiện
+                </a>
             </li>
 
             <li>
-                <a href="#">Khuyến mãi</a>
+                <a href="#">
+                    Khuyến mãi
+                </a>
             </li>
 
             <li>
-                <a href="#">Liên hệ</a>
+                <a href="#">
+                    Liên hệ
+                </a>
             </li>
+
         </ul>
+
     </nav>
 
 
-    <!-- =========================================
+
+    <!-- ==================================================
          BANNER
-    ========================================== -->
+    =================================================== -->
+
     <section class="container banner">
 
-        <h1>Điện thoại chính hãng</h1>
+        <h1>
+            Điện thoại chính hãng
+        </h1>
 
         <p>
             Sản phẩm công nghệ mới nhất với mức giá hấp dẫn
@@ -86,47 +128,59 @@
     </section>
 
 
-    <!-- =========================================
+
+    <!-- ==================================================
          SẢN PHẨM
-    ========================================== -->
+    =================================================== -->
+
     <main
         class="container products"
         id="products"
     >
 
-        <h2>🔥 Sản phẩm nổi bật</h2>
+        <h2>
+            🔥 Sản phẩm nổi bật
+        </h2>
 
 
-        <!-- =====================================
-             BỘ LỌC SẢN PHẨM
-        ====================================== -->
+
+        <!-- ==================================================
+             BỘ LỌC
+        =================================================== -->
+
         <div class="product-toolbar">
 
-            <!-- Lọc theo hãng -->
             <div class="filter-buttons">
 
                 <button
+                    type="button"
                     class="filter-button active"
                     data-brand="all"
                 >
                     Tất cả
                 </button>
 
+
                 <button
+                    type="button"
                     class="filter-button"
                     data-brand="apple"
                 >
                     Apple
                 </button>
 
+
                 <button
+                    type="button"
                     class="filter-button"
                     data-brand="samsung"
                 >
                     Samsung
                 </button>
 
+
                 <button
+                    type="button"
                     class="filter-button"
                     data-brand="xiaomi"
                 >
@@ -136,7 +190,7 @@
             </div>
 
 
-            <!-- Sắp xếp -->
+
             <div class="sort-box">
 
                 <label for="sort-products">
@@ -164,362 +218,678 @@
         </div>
 
 
-        <!-- =====================================
+
+        <!-- ==================================================
              DANH SÁCH SẢN PHẨM
-        ====================================== -->
+        =================================================== -->
+
         <div
             class="product-list"
             id="product-list"
         >
 
 
-            <!-- =================================
-                 SẢN PHẨM 1
-            ================================== -->
+            <!-- ==================================================
+                 1. IPHONE 16 PRO MAX
+            =================================================== -->
+
             <div
                 class="product-card"
                 data-brand="apple"
                 data-price="29990000"
+                data-storage="256GB"
+                data-ram="8GB"
+                data-screen="6.9 inch"
+                data-camera="48MP"
+                data-color="Titan tự nhiên"
             >
 
                 <div class="product-image">
+
                     <img
                         src="images/iphone-16prm.jpg"
                         alt="iPhone 16 Pro Max"
                     >
+
                 </div>
+
 
                 <p class="product-brand">
                     Apple
                 </p>
+
 
                 <h3>
                     iPhone 16 Pro Max
                 </h3>
 
+
                 <p class="product-spec">
                     256GB
                 </p>
+
 
                 <p class="price">
                     29.990.000đ
                 </p>
 
-                <button>
-                    Thêm vào giỏ
-                </button>
+
+                <div class="product-actions">
+
+                    <button
+                        type="button"
+                        class="compare-button"
+                    >
+                        ⚖️ So sánh
+                    </button>
+
+                    <button
+                        type="button"
+                        class="detail-button"
+                    >
+                        Xem chi tiết
+                    </button>
+
+                    <button
+                        type="button"
+                        class="add-cart-button"
+                    >
+                        Thêm vào giỏ
+                    </button>
+
+                </div>
 
             </div>
 
 
-            <!-- =================================
-                 SẢN PHẨM 2
-            ================================== -->
+
+            <!-- ==================================================
+                 2. IPHONE 18 PRO
+            =================================================== -->
+
             <div
                 class="product-card"
                 data-brand="apple"
                 data-price="31990000"
+                data-storage="256GB"
+                data-ram="12GB"
+                data-screen="6.3 inch"
+                data-camera="48MP"
+                data-color="Đen"
             >
 
                 <div class="product-image">
+
                     <img
                         src="images/iphone-18-pro.png"
                         alt="iPhone 18 Pro"
                     >
+
                 </div>
+
 
                 <p class="product-brand">
                     Apple
                 </p>
+
 
                 <h3>
                     iPhone 18 Pro
                 </h3>
 
+
                 <p class="product-spec">
                     256GB
                 </p>
+
 
                 <p class="price">
                     31.990.000đ
                 </p>
 
-                <button>
-                    Thêm vào giỏ
-                </button>
+
+                <div class="product-actions">
+
+                    <button
+                        type="button"
+                        class="compare-button"
+                    >
+                        ⚖️ So sánh
+                    </button>
+
+                    <button
+                        type="button"
+                        class="detail-button"
+                    >
+                        Xem chi tiết
+                    </button>
+
+                    <button
+                        type="button"
+                        class="add-cart-button"
+                    >
+                        Thêm vào giỏ
+                    </button>
+
+                </div>
 
             </div>
 
 
-            <!-- =================================
-                 SẢN PHẨM 3
-            ================================== -->
+
+            <!-- ==================================================
+                 3. IPHONE 18 PRO MAX
+            =================================================== -->
+
             <div
                 class="product-card"
                 data-brand="apple"
                 data-price="36990000"
+                data-storage="256GB"
+                data-ram="12GB"
+                data-screen="6.9 inch"
+                data-camera="48MP"
+                data-color="Trắng"
             >
 
                 <div class="product-image">
+
                     <img
                         src="images/iphone-18promax.png"
                         alt="iPhone 18 Pro Max"
                     >
+
                 </div>
+
 
                 <p class="product-brand">
                     Apple
                 </p>
 
+
                 <h3>
                     iPhone 18 Pro Max
                 </h3>
 
+
                 <p class="product-spec">
                     256GB
                 </p>
+
 
                 <p class="price">
                     36.990.000đ
                 </p>
 
-                <button>
-                    Thêm vào giỏ
-                </button>
+
+                <div class="product-actions">
+
+                    <button
+                        type="button"
+                        class="compare-button"
+                    >
+                        ⚖️ So sánh
+                    </button>
+
+                    <button
+                        type="button"
+                        class="detail-button"
+                    >
+                        Xem chi tiết
+                    </button>
+
+                    <button
+                        type="button"
+                        class="add-cart-button"
+                    >
+                        Thêm vào giỏ
+                    </button>
+
+                </div>
 
             </div>
 
 
-            <!-- =================================
-                 SẢN PHẨM 4
-            ================================== -->
+
+            <!-- ==================================================
+                 4. SAMSUNG GALAXY S25
+            =================================================== -->
+
             <div
                 class="product-card"
                 data-brand="samsung"
                 data-price="22990000"
+                data-storage="256GB"
+                data-ram="12GB"
+                data-screen="6.2 inch"
+                data-camera="50MP"
+                data-color="Xanh Navy"
             >
 
                 <div class="product-image">
+
                     <img
                         src="images/samsung-s25.png"
                         alt="Samsung Galaxy S25"
                     >
+
                 </div>
+
 
                 <p class="product-brand">
                     Samsung
                 </p>
+
 
                 <h3>
                     Samsung Galaxy S25
                 </h3>
 
+
                 <p class="product-spec">
                     256GB
                 </p>
+
 
                 <p class="price">
                     22.990.000đ
                 </p>
 
-                <button>
-                    Thêm vào giỏ
-                </button>
+
+                <div class="product-actions">
+
+                    <button
+                        type="button"
+                        class="compare-button"
+                    >
+                        ⚖️ So sánh
+                    </button>
+
+                    <button
+                        type="button"
+                        class="detail-button"
+                    >
+                        Xem chi tiết
+                    </button>
+
+                    <button
+                        type="button"
+                        class="add-cart-button"
+                    >
+                        Thêm vào giỏ
+                    </button>
+
+                </div>
 
             </div>
 
 
-            <!-- =================================
-                 SẢN PHẨM 5
-            ================================== -->
+
+            <!-- ==================================================
+                 5. SAMSUNG GALAXY S25 ULTRA
+            =================================================== -->
+
             <div
                 class="product-card"
                 data-brand="samsung"
                 data-price="27990000"
+                data-storage="256GB"
+                data-ram="12GB"
+                data-screen="6.9 inch"
+                data-camera="200MP"
+                data-color="Titanium"
             >
 
                 <div class="product-image">
+
                     <img
                         src="images/samsung-s25ultra.jpg"
                         alt="Samsung Galaxy S25 Ultra"
                     >
+
                 </div>
+
 
                 <p class="product-brand">
                     Samsung
                 </p>
+
 
                 <h3>
                     Samsung Galaxy S25 Ultra
                 </h3>
 
+
                 <p class="product-spec">
                     256GB
                 </p>
+
 
                 <p class="price">
                     27.990.000đ
                 </p>
 
-                <button>
-                    Thêm vào giỏ
-                </button>
+
+                <div class="product-actions">
+
+                    <button
+                        type="button"
+                        class="compare-button"
+                    >
+                        ⚖️ So sánh
+                    </button>
+
+                    <button
+                        type="button"
+                        class="detail-button"
+                    >
+                        Xem chi tiết
+                    </button>
+
+                    <button
+                        type="button"
+                        class="add-cart-button"
+                    >
+                        Thêm vào giỏ
+                    </button>
+
+                </div>
 
             </div>
 
 
-            <!-- =================================
-                 SẢN PHẨM 6
-            ================================== -->
+
+            <!-- ==================================================
+                 6. SAMSUNG GALAXY Z FOLD8
+            =================================================== -->
+
             <div
                 class="product-card"
                 data-brand="samsung"
                 data-price="46990000"
+                data-storage="512GB"
+                data-ram="16GB"
+                data-screen="Màn hình gập"
+                data-camera="200MP"
+                data-color="Đen"
             >
 
                 <div class="product-image">
+
                     <img
                         src="images/samsung-zfold8.jpg"
                         alt="Samsung Galaxy Z Fold8"
                     >
+
                 </div>
+
 
                 <p class="product-brand">
                     Samsung
                 </p>
 
+
                 <h3>
                     Samsung Galaxy Z Fold8
                 </h3>
 
+
                 <p class="product-spec">
                     512GB
                 </p>
+
 
                 <p class="price">
                     46.990.000đ
                 </p>
 
-                <button>
-                    Thêm vào giỏ
-                </button>
+
+                <div class="product-actions">
+
+                    <button
+                        type="button"
+                        class="compare-button"
+                    >
+                        ⚖️ So sánh
+                    </button>
+
+                    <button
+                        type="button"
+                        class="detail-button"
+                    >
+                        Xem chi tiết
+                    </button>
+
+                    <button
+                        type="button"
+                        class="add-cart-button"
+                    >
+                        Thêm vào giỏ
+                    </button>
+
+                </div>
 
             </div>
 
 
-            <!-- =================================
-                 SẢN PHẨM 7
-            ================================== -->
+
+            <!-- ==================================================
+                 7. XIAOMI 15 ULTRA
+            =================================================== -->
+
             <div
                 class="product-card"
                 data-brand="xiaomi"
                 data-price="24990000"
+                data-storage="512GB"
+                data-ram="16GB"
+                data-screen="6.73 inch"
+                data-camera="Leica"
+                data-color="Đen"
             >
 
                 <div class="product-image">
+
                     <img
                         src="images/xiaomi-15ultra.jpg"
                         alt="Xiaomi 15 Ultra"
                     >
+
                 </div>
+
 
                 <p class="product-brand">
                     Xiaomi
                 </p>
+
 
                 <h3>
                     Xiaomi 15 Ultra
                 </h3>
 
+
                 <p class="product-spec">
                     512GB
                 </p>
+
 
                 <p class="price">
                     24.990.000đ
                 </p>
 
-                <button>
-                    Thêm vào giỏ
-                </button>
+
+                <div class="product-actions">
+
+                    <button
+                        type="button"
+                        class="compare-button"
+                    >
+                        ⚖️ So sánh
+                    </button>
+
+                    <button
+                        type="button"
+                        class="detail-button"
+                    >
+                        Xem chi tiết
+                    </button>
+
+                    <button
+                        type="button"
+                        class="add-cart-button"
+                    >
+                        Thêm vào giỏ
+                    </button>
+
+                </div>
 
             </div>
 
 
-            <!-- =================================
-                 SẢN PHẨM 8
-            ================================== -->
+
+            <!-- ==================================================
+                 8. XIAOMI 17
+            =================================================== -->
+
             <div
                 class="product-card"
                 data-brand="xiaomi"
                 data-price="19990000"
+                data-storage="256GB"
+                data-ram="12GB"
+                data-screen="6.3 inch"
+                data-camera="50MP"
+                data-color="Trắng"
             >
 
                 <div class="product-image">
+
                     <img
                         src="images/xiaomi-17.jpg"
                         alt="Xiaomi 17"
                     >
+
                 </div>
+
 
                 <p class="product-brand">
                     Xiaomi
                 </p>
+
 
                 <h3>
                     Xiaomi 17
                 </h3>
 
+
                 <p class="product-spec">
                     256GB
                 </p>
+
 
                 <p class="price">
                     19.990.000đ
                 </p>
 
-                <button>
-                    Thêm vào giỏ
-                </button>
+
+                <div class="product-actions">
+
+                    <button
+                        type="button"
+                        class="compare-button"
+                    >
+                        ⚖️ So sánh
+                    </button>
+
+                    <button
+                        type="button"
+                        class="detail-button"
+                    >
+                        Xem chi tiết
+                    </button>
+
+                    <button
+                        type="button"
+                        class="add-cart-button"
+                    >
+                        Thêm vào giỏ
+                    </button>
+
+                </div>
 
             </div>
 
 
-            <!-- =================================
-                 SẢN PHẨM 9
-            ================================== -->
+
+            <!-- ==================================================
+                 9. XIAOMI REDMI NOTE 15
+            =================================================== -->
+
             <div
                 class="product-card"
                 data-brand="xiaomi"
                 data-price="8990000"
+                data-storage="256GB"
+                data-ram="8GB"
+                data-screen="6.67 inch"
+                data-camera="108MP"
+                data-color="Đen"
             >
 
                 <div class="product-image">
+
                     <img
                         src="images/xiaomi-redmi-note15.jpg"
                         alt="Xiaomi Redmi Note 15"
                     >
+
                 </div>
+
 
                 <p class="product-brand">
                     Xiaomi
                 </p>
 
+
                 <h3>
                     Xiaomi Redmi Note 15
                 </h3>
+
 
                 <p class="product-spec">
                     256GB
                 </p>
 
+
                 <p class="price">
                     8.990.000đ
                 </p>
 
-                <button>
-                    Thêm vào giỏ
-                </button>
+
+                <div class="product-actions">
+
+                    <button
+                        type="button"
+                        class="compare-button"
+                    >
+                        ⚖️ So sánh
+                    </button>
+
+                    <button
+                        type="button"
+                        class="detail-button"
+                    >
+                        Xem chi tiết
+                    </button>
+
+                    <button
+                        type="button"
+                        class="add-cart-button"
+                    >
+                        Thêm vào giỏ
+                    </button>
+
+                </div>
 
             </div>
 
@@ -528,9 +898,301 @@
     </main>
 
 
-    <!-- =========================================
+
+    <!-- ==================================================
+         MODAL CHI TIẾT SẢN PHẨM
+    =================================================== -->
+
+    <div
+        id="product-detail-modal"
+        class="cart-modal"
+    >
+
+        <div class="product-detail-content">
+
+            <span
+                id="close-product-detail"
+                class="close-cart"
+            >
+                &times;
+            </span>
+
+
+            <div class="product-detail-layout">
+
+
+                <!-- ẢNH SẢN PHẨM -->
+
+                <div class="product-detail-image">
+
+                    <img
+                        id="detail-image"
+                        src=""
+                        alt="Chi tiết sản phẩm"
+                    >
+
+                </div>
+
+
+
+                <!-- THÔNG TIN SẢN PHẨM -->
+
+                <div class="product-detail-info">
+
+                    <p
+                        id="detail-brand"
+                        class="detail-brand"
+                    >
+                        THƯƠNG HIỆU
+                    </p>
+
+
+                    <h2 id="detail-name">
+                        Tên sản phẩm
+                    </h2>
+
+
+                    <p
+                        id="detail-price"
+                        class="detail-price"
+                    >
+                        0đ
+                    </p>
+
+
+                    <div class="detail-divider">
+                    </div>
+
+
+                    <h3>
+                        Thông số nổi bật
+                    </h3>
+
+
+                    <div class="specification-list">
+
+
+                        <div class="specification-item">
+
+                            <span>
+                                💾 Bộ nhớ
+                            </span>
+
+                            <strong id="detail-storage">
+                                -
+                            </strong>
+
+                        </div>
+
+
+                        <div class="specification-item">
+
+                            <span>
+                                ⚡ RAM
+                            </span>
+
+                            <strong id="detail-ram">
+                                -
+                            </strong>
+
+                        </div>
+
+
+                        <div class="specification-item">
+
+                            <span>
+                                📱 Màn hình
+                            </span>
+
+                            <strong id="detail-screen">
+                                -
+                            </strong>
+
+                        </div>
+
+
+                        <div class="specification-item">
+
+                            <span>
+                                📷 Camera
+                            </span>
+
+                            <strong id="detail-camera">
+                                -
+                            </strong>
+
+                        </div>
+
+
+                        <div class="specification-item">
+
+                            <span>
+                                🎨 Màu sắc
+                            </span>
+
+                            <strong id="detail-color">
+                                -
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- CHÍNH SÁCH -->
+
+                    <div class="detail-policy">
+
+                        <p>
+                            ✓ Sản phẩm chính hãng
+                        </p>
+
+                        <p>
+                            ✓ Bảo hành theo chính sách cửa hàng
+                        </p>
+
+                        <p>
+                            ✓ Giao hàng toàn quốc
+                        </p>
+
+                    </div>
+
+
+                    <button
+                        type="button"
+                        id="detail-add-cart"
+                        class="detail-add-cart"
+                    >
+                        🛒 Thêm vào giỏ hàng
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- ==================================================
+         THANH SO SÁNH SẢN PHẨM
+    =================================================== -->
+
+    <div
+        id="compare-bar"
+        class="compare-bar"
+    >
+
+        <div class="compare-bar-content">
+
+            <div class="compare-bar-info">
+
+                <strong>
+                    ⚖️ So sánh sản phẩm
+                </strong>
+
+                <span id="compare-count">
+                    Đã chọn 0/3 sản phẩm
+                </span>
+
+            </div>
+
+
+            <div class="compare-bar-actions">
+
+                <button
+                    type="button"
+                    id="clear-compare"
+                >
+                    Xóa tất cả
+                </button>
+
+
+                <button
+                    type="button"
+                    id="open-compare"
+                    disabled
+                >
+                    So sánh ngay
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- ==================================================
+         MODAL SO SÁNH SẢN PHẨM
+    =================================================== -->
+
+    <div
+        id="compare-modal"
+        class="cart-modal"
+    >
+
+        <div class="compare-modal-content">
+
+            <span
+                id="close-compare"
+                class="close-cart"
+            >
+                &times;
+            </span>
+
+
+            <h2>
+                ⚖️ So sánh sản phẩm
+            </h2>
+
+
+            <p class="compare-description">
+                So sánh thông số giữa các điện thoại đã chọn
+            </p>
+
+
+            <div class="compare-table-wrapper">
+
+                <table id="compare-table">
+
+                    <thead id="compare-table-head">
+
+                        <!--
+                            JavaScript sẽ tự tạo
+                            tên và ảnh sản phẩm tại đây
+                        -->
+
+                    </thead>
+
+
+                    <tbody id="compare-table-body">
+
+                        <!--
+                            JavaScript sẽ tự tạo
+                            bảng thông số tại đây
+                        -->
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- ==================================================
          GIỎ HÀNG
-    ========================================== -->
+    =================================================== -->
+
     <div
         id="cart-modal"
         class="cart-modal"
@@ -544,6 +1206,7 @@
             >
                 &times;
             </span>
+
 
             <h2>
                 🛒 Giỏ hàng của bạn
@@ -574,7 +1237,10 @@
             </div>
 
 
-            <button id="checkout-button">
+            <button
+                type="button"
+                id="checkout-button"
+            >
                 Đặt hàng
             </button>
 
@@ -583,9 +1249,11 @@
     </div>
 
 
-    <!-- =========================================
+
+    <!-- ==================================================
          FORM ĐẶT HÀNG
-    ========================================== -->
+    =================================================== -->
+
     <div
         id="checkout-modal"
         class="cart-modal"
@@ -593,8 +1261,6 @@
 
         <div class="cart-content checkout-content">
 
-
-            <!-- Nút đóng -->
             <span
                 id="close-checkout"
                 class="close-cart"
@@ -611,7 +1277,8 @@
             <form id="checkout-form">
 
 
-                <!-- Họ tên -->
+                <!-- HỌ TÊN -->
+
                 <label for="customer-name">
                     Họ và tên
                 </label>
@@ -624,7 +1291,9 @@
                 >
 
 
-                <!-- Số điện thoại -->
+
+                <!-- SỐ ĐIỆN THOẠI -->
+
                 <label for="customer-phone">
                     Số điện thoại
                 </label>
@@ -638,7 +1307,9 @@
                 >
 
 
-                <!-- Địa chỉ -->
+
+                <!-- ĐỊA CHỈ -->
+
                 <label for="customer-address">
                     Địa chỉ nhận hàng
                 </label>
@@ -650,7 +1321,9 @@
                 ></textarea>
 
 
-                <!-- Phương thức thanh toán -->
+
+                <!-- THANH TOÁN -->
+
                 <label for="payment-method">
                     Phương thức thanh toán
                 </label>
@@ -675,7 +1348,6 @@
                 </select>
 
 
-                <!-- Nút xác nhận -->
                 <button
                     type="submit"
                     id="confirm-order-button"
@@ -690,9 +1362,11 @@
     </div>
 
 
-    <!-- =========================================
+
+    <!-- ==================================================
          FOOTER
-    ========================================== -->
+    =================================================== -->
+
     <footer>
 
         <p>
@@ -702,9 +1376,11 @@
     </footer>
 
 
-    <!-- =========================================
+
+    <!-- ==================================================
          JAVASCRIPT
-    ========================================== -->
+    =================================================== -->
+
     <script src="js/main.js"></script>
 
 </body>
