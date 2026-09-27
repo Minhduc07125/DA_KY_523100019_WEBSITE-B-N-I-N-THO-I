@@ -7,13 +7,15 @@
 
     <title>Phone Store - Website bán điện thoại</title>
 
-    <!-- Kết nối file CSS -->
+    <!-- Kết nối CSS -->
     <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
 
-    <!-- HEADER -->
+    <!-- =========================================
+         HEADER
+    ========================================== -->
     <header>
         <div class="container header-content">
 
@@ -22,109 +24,688 @@
             </div>
 
             <div class="search-box">
-               <input type="text" id="search-input" placeholder="Bạn muốn tìm điện thoại gì?">
-               <button id="search-button">Tìm kiếm</button>
+                <input
+                    type="text"
+                    id="search-input"
+                    placeholder="Bạn muốn tìm điện thoại gì?"
+                >
+
+                <button id="search-button">
+                    Tìm kiếm
+                </button>
             </div>
 
             <div class="cart" id="cart-button">
-                🛒 Giỏ hàng (<span id="cart-count">0</span>)
+                🛒 Giỏ hàng
+                (<span id="cart-count">0</span>)
             </div>
 
         </div>
     </header>
 
-    <!-- MENU -->
+
+    <!-- =========================================
+         MENU
+    ========================================== -->
     <nav>
         <ul>
-            <li><a href="#">Trang chủ</a></li>
-            <li><a href="#">Điện thoại</a></li>
-            <li><a href="#">Phụ kiện</a></li>
-            <li><a href="#">Khuyến mãi</a></li>
-            <li><a href="#">Liên hệ</a></li>
+            <li>
+                <a href="#">Trang chủ</a>
+            </li>
+
+            <li>
+                <a href="#products">Điện thoại</a>
+            </li>
+
+            <li>
+                <a href="#">Phụ kiện</a>
+            </li>
+
+            <li>
+                <a href="#">Khuyến mãi</a>
+            </li>
+
+            <li>
+                <a href="#">Liên hệ</a>
+            </li>
         </ul>
     </nav>
 
-    <!-- BANNER -->
+
+    <!-- =========================================
+         BANNER
+    ========================================== -->
     <section class="container banner">
+
         <h1>Điện thoại chính hãng</h1>
-        <p>Sản phẩm công nghệ mới nhất với mức giá hấp dẫn</p>
+
+        <p>
+            Sản phẩm công nghệ mới nhất với mức giá hấp dẫn
+        </p>
+
     </section>
 
-    <!-- SẢN PHẨM -->
-    <main class="container products">
+
+    <!-- =========================================
+         SẢN PHẨM
+    ========================================== -->
+    <main
+        class="container products"
+        id="products"
+    >
 
         <h2>🔥 Sản phẩm nổi bật</h2>
 
-        <div class="product-list">
 
-            <!-- Sản phẩm 1 -->
-            <div class="product-card">
-                <div class="product-image">📱</div>
+        <!-- =====================================
+             BỘ LỌC SẢN PHẨM
+        ====================================== -->
+        <div class="product-toolbar">
 
-                <h3>iPhone 16 Pro Max</h3>
+            <!-- Lọc theo hãng -->
+            <div class="filter-buttons">
+
+                <button
+                    class="filter-button active"
+                    data-brand="all"
+                >
+                    Tất cả
+                </button>
+
+                <button
+                    class="filter-button"
+                    data-brand="apple"
+                >
+                    Apple
+                </button>
+
+                <button
+                    class="filter-button"
+                    data-brand="samsung"
+                >
+                    Samsung
+                </button>
+
+                <button
+                    class="filter-button"
+                    data-brand="xiaomi"
+                >
+                    Xiaomi
+                </button>
+
+            </div>
+
+
+            <!-- Sắp xếp -->
+            <div class="sort-box">
+
+                <label for="sort-products">
+                    Sắp xếp:
+                </label>
+
+                <select id="sort-products">
+
+                    <option value="default">
+                        Mặc định
+                    </option>
+
+                    <option value="price-asc">
+                        Giá thấp đến cao
+                    </option>
+
+                    <option value="price-desc">
+                        Giá cao đến thấp
+                    </option>
+
+                </select>
+
+            </div>
+
+        </div>
+
+
+        <!-- =====================================
+             DANH SÁCH SẢN PHẨM
+        ====================================== -->
+        <div
+            class="product-list"
+            id="product-list"
+        >
+
+
+            <!-- =================================
+                 SẢN PHẨM 1
+            ================================== -->
+            <div
+                class="product-card"
+                data-brand="apple"
+                data-price="29990000"
+            >
+
+                <div class="product-image">
+                    <img
+                        src="images/iphone-16prm.jpg"
+                        alt="iPhone 16 Pro Max"
+                    >
+                </div>
+
+                <p class="product-brand">
+                    Apple
+                </p>
+
+                <h3>
+                    iPhone 16 Pro Max
+                </h3>
+
+                <p class="product-spec">
+                    256GB
+                </p>
 
                 <p class="price">
                     29.990.000đ
                 </p>
 
-                <button>Thêm vào giỏ</button>
+                <button>
+                    Thêm vào giỏ
+                </button>
+
             </div>
 
-            <!-- Sản phẩm 2 -->
-            <div class="product-card">
-                <div class="product-image">📱</div>
 
-                <h3>Samsung Galaxy S25 Ultra</h3>
+            <!-- =================================
+                 SẢN PHẨM 2
+            ================================== -->
+            <div
+                class="product-card"
+                data-brand="apple"
+                data-price="31990000"
+            >
+
+                <div class="product-image">
+                    <img
+                        src="images/iphone-18-pro.png"
+                        alt="iPhone 18 Pro"
+                    >
+                </div>
+
+                <p class="product-brand">
+                    Apple
+                </p>
+
+                <h3>
+                    iPhone 18 Pro
+                </h3>
+
+                <p class="product-spec">
+                    256GB
+                </p>
+
+                <p class="price">
+                    31.990.000đ
+                </p>
+
+                <button>
+                    Thêm vào giỏ
+                </button>
+
+            </div>
+
+
+            <!-- =================================
+                 SẢN PHẨM 3
+            ================================== -->
+            <div
+                class="product-card"
+                data-brand="apple"
+                data-price="36990000"
+            >
+
+                <div class="product-image">
+                    <img
+                        src="images/iphone-18promax.png"
+                        alt="iPhone 18 Pro Max"
+                    >
+                </div>
+
+                <p class="product-brand">
+                    Apple
+                </p>
+
+                <h3>
+                    iPhone 18 Pro Max
+                </h3>
+
+                <p class="product-spec">
+                    256GB
+                </p>
+
+                <p class="price">
+                    36.990.000đ
+                </p>
+
+                <button>
+                    Thêm vào giỏ
+                </button>
+
+            </div>
+
+
+            <!-- =================================
+                 SẢN PHẨM 4
+            ================================== -->
+            <div
+                class="product-card"
+                data-brand="samsung"
+                data-price="22990000"
+            >
+
+                <div class="product-image">
+                    <img
+                        src="images/samsung-s25.png"
+                        alt="Samsung Galaxy S25"
+                    >
+                </div>
+
+                <p class="product-brand">
+                    Samsung
+                </p>
+
+                <h3>
+                    Samsung Galaxy S25
+                </h3>
+
+                <p class="product-spec">
+                    256GB
+                </p>
+
+                <p class="price">
+                    22.990.000đ
+                </p>
+
+                <button>
+                    Thêm vào giỏ
+                </button>
+
+            </div>
+
+
+            <!-- =================================
+                 SẢN PHẨM 5
+            ================================== -->
+            <div
+                class="product-card"
+                data-brand="samsung"
+                data-price="27990000"
+            >
+
+                <div class="product-image">
+                    <img
+                        src="images/samsung-s25ultra.jpg"
+                        alt="Samsung Galaxy S25 Ultra"
+                    >
+                </div>
+
+                <p class="product-brand">
+                    Samsung
+                </p>
+
+                <h3>
+                    Samsung Galaxy S25 Ultra
+                </h3>
+
+                <p class="product-spec">
+                    256GB
+                </p>
 
                 <p class="price">
                     27.990.000đ
                 </p>
 
-                <button>Thêm vào giỏ</button>
+                <button>
+                    Thêm vào giỏ
+                </button>
+
             </div>
 
-            <!-- Sản phẩm 3 -->
-            <div class="product-card">
-                <div class="product-image">📱</div>
 
-                <h3>Xiaomi 15 Ultra</h3>
+            <!-- =================================
+                 SẢN PHẨM 6
+            ================================== -->
+            <div
+                class="product-card"
+                data-brand="samsung"
+                data-price="46990000"
+            >
+
+                <div class="product-image">
+                    <img
+                        src="images/samsung-zfold8.jpg"
+                        alt="Samsung Galaxy Z Fold8"
+                    >
+                </div>
+
+                <p class="product-brand">
+                    Samsung
+                </p>
+
+                <h3>
+                    Samsung Galaxy Z Fold8
+                </h3>
+
+                <p class="product-spec">
+                    512GB
+                </p>
+
+                <p class="price">
+                    46.990.000đ
+                </p>
+
+                <button>
+                    Thêm vào giỏ
+                </button>
+
+            </div>
+
+
+            <!-- =================================
+                 SẢN PHẨM 7
+            ================================== -->
+            <div
+                class="product-card"
+                data-brand="xiaomi"
+                data-price="24990000"
+            >
+
+                <div class="product-image">
+                    <img
+                        src="images/xiaomi-15ultra.jpg"
+                        alt="Xiaomi 15 Ultra"
+                    >
+                </div>
+
+                <p class="product-brand">
+                    Xiaomi
+                </p>
+
+                <h3>
+                    Xiaomi 15 Ultra
+                </h3>
+
+                <p class="product-spec">
+                    512GB
+                </p>
 
                 <p class="price">
                     24.990.000đ
                 </p>
 
-                <button>Thêm vào giỏ</button>
+                <button>
+                    Thêm vào giỏ
+                </button>
+
+            </div>
+
+
+            <!-- =================================
+                 SẢN PHẨM 8
+            ================================== -->
+            <div
+                class="product-card"
+                data-brand="xiaomi"
+                data-price="19990000"
+            >
+
+                <div class="product-image">
+                    <img
+                        src="images/xiaomi-17.jpg"
+                        alt="Xiaomi 17"
+                    >
+                </div>
+
+                <p class="product-brand">
+                    Xiaomi
+                </p>
+
+                <h3>
+                    Xiaomi 17
+                </h3>
+
+                <p class="product-spec">
+                    256GB
+                </p>
+
+                <p class="price">
+                    19.990.000đ
+                </p>
+
+                <button>
+                    Thêm vào giỏ
+                </button>
+
+            </div>
+
+
+            <!-- =================================
+                 SẢN PHẨM 9
+            ================================== -->
+            <div
+                class="product-card"
+                data-brand="xiaomi"
+                data-price="8990000"
+            >
+
+                <div class="product-image">
+                    <img
+                        src="images/xiaomi-redmi-note15.jpg"
+                        alt="Xiaomi Redmi Note 15"
+                    >
+                </div>
+
+                <p class="product-brand">
+                    Xiaomi
+                </p>
+
+                <h3>
+                    Xiaomi Redmi Note 15
+                </h3>
+
+                <p class="product-spec">
+                    256GB
+                </p>
+
+                <p class="price">
+                    8.990.000đ
+                </p>
+
+                <button>
+                    Thêm vào giỏ
+                </button>
+
             </div>
 
         </div>
 
     </main>
 
-    <!-- GIỎ HÀNG -->
-<div id="cart-modal" class="cart-modal">
-    <div class="cart-content">
-        <span id="close-cart" class="close-cart">&times;</span>
 
-        <h2>🛒 Giỏ hàng của bạn</h2>
+    <!-- =========================================
+         GIỎ HÀNG
+    ========================================== -->
+    <div
+        id="cart-modal"
+        class="cart-modal"
+    >
 
-        <div id="cart-items">
-            <p>Giỏ hàng đang trống.</p>
+        <div class="cart-content">
+
+            <span
+                id="close-cart"
+                class="close-cart"
+            >
+                &times;
+            </span>
+
+            <h2>
+                🛒 Giỏ hàng của bạn
+            </h2>
+
+
+            <div id="cart-items">
+
+                <p>
+                    Giỏ hàng đang trống.
+                </p>
+
+            </div>
+
+
+            <div class="cart-total">
+
+                <strong>
+
+                    Tổng tiền:
+
+                    <span id="cart-total">
+                        0đ
+                    </span>
+
+                </strong>
+
+            </div>
+
+
+            <button id="checkout-button">
+                Đặt hàng
+            </button>
+
         </div>
 
-        <div class="cart-total">
-            <strong>Tổng tiền: <span id="cart-total">0đ</span></strong>
-        </div>
-
-        <button id="checkout-button">Đặt hàng</button>
     </div>
-</div>
 
 
-    <!-- FOOTER -->
+    <!-- =========================================
+         FORM ĐẶT HÀNG
+    ========================================== -->
+    <div
+        id="checkout-modal"
+        class="cart-modal"
+    >
+
+        <div class="cart-content checkout-content">
+
+
+            <!-- Nút đóng -->
+            <span
+                id="close-checkout"
+                class="close-cart"
+            >
+                &times;
+            </span>
+
+
+            <h2>
+                📦 Thông tin đặt hàng
+            </h2>
+
+
+            <form id="checkout-form">
+
+
+                <!-- Họ tên -->
+                <label for="customer-name">
+                    Họ và tên
+                </label>
+
+                <input
+                    type="text"
+                    id="customer-name"
+                    placeholder="Nhập họ và tên"
+                    required
+                >
+
+
+                <!-- Số điện thoại -->
+                <label for="customer-phone">
+                    Số điện thoại
+                </label>
+
+                <input
+                    type="tel"
+                    id="customer-phone"
+                    placeholder="Ví dụ: 0912345678"
+                    maxlength="10"
+                    required
+                >
+
+
+                <!-- Địa chỉ -->
+                <label for="customer-address">
+                    Địa chỉ nhận hàng
+                </label>
+
+                <textarea
+                    id="customer-address"
+                    placeholder="Nhập địa chỉ nhận hàng"
+                    required
+                ></textarea>
+
+
+                <!-- Phương thức thanh toán -->
+                <label for="payment-method">
+                    Phương thức thanh toán
+                </label>
+
+                <select
+                    id="payment-method"
+                    required
+                >
+
+                    <option value="">
+                        -- Chọn phương thức thanh toán --
+                    </option>
+
+                    <option value="cod">
+                        Thanh toán khi nhận hàng (COD)
+                    </option>
+
+                    <option value="bank">
+                        Chuyển khoản ngân hàng
+                    </option>
+
+                </select>
+
+
+                <!-- Nút xác nhận -->
+                <button
+                    type="submit"
+                    id="confirm-order-button"
+                >
+                    Xác nhận đặt hàng
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================================
+         FOOTER
+    ========================================== -->
     <footer>
-        <p>© 2026 Phone Store - Website bán điện thoại</p>
+
+        <p>
+            © 2026 Phone Store - Website bán điện thoại
+        </p>
+
     </footer>
-<script src="js/main.js"></script>
+
+
+    <!-- =========================================
+         JAVASCRIPT
+    ========================================== -->
+    <script src="js/main.js"></script>
 
 </body>
 
