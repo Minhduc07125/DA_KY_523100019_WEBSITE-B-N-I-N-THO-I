@@ -1,1756 +1,980 @@
-// ======================================================
-// PHONE STORE - MAIN JAVASCRIPT
-// ======================================================
 
+/* =========================================================
+   PHONE MDZ - MAIN JAVASCRIPT
+   WEBSITE BÁN ĐIỆN THOẠI VÀ PHỤ KIỆN
+   ========================================================= */
 
+"use strict";
 
-// ======================================================
-// 1. LẤY CÁC PHẦN TỬ HTML
-// ======================================================
+document.addEventListener("DOMContentLoaded", () => {
 
-// Tìm kiếm
-const searchInput = document.getElementById("search-input");
-const searchButton = document.getElementById("search-button");
+    // =====================================================
+    // 1. LẤY CÁC PHẦN TỬ HTML
+    // =====================================================
 
+    const searchInput = document.getElementById("search-input");
+    const searchButton = document.getElementById("search-button");
 
-// Danh sách sản phẩm
-const productList = document.getElementById("product-list");
-
-const productCards = Array.from(
-    document.querySelectorAll(".product-card")
-);
-
-
-// Nút sản phẩm
-const addToCartButtons = document.querySelectorAll(
-    ".add-cart-button"
-);
-
-const detailButtons = document.querySelectorAll(
-    ".detail-button"
-);
-
-const compareButtons = document.querySelectorAll(
-    ".compare-button"
-);
-
-
-// Bộ lọc
-const filterButtons = document.querySelectorAll(
-    ".filter-button"
-);
-
-
-// Sắp xếp
-const sortProducts = document.getElementById(
-    "sort-products"
-);
-
-
-
-// ======================================================
-// GIỎ HÀNG
-// ======================================================
-
-const cartButton = document.getElementById("cart-button");
-const cartCount = document.getElementById("cart-count");
-
-const cartModal = document.getElementById("cart-modal");
-const closeCart = document.getElementById("close-cart");
-
-const cartItems = document.getElementById("cart-items");
-const cartTotal = document.getElementById("cart-total");
-
-const checkoutButton = document.getElementById(
-    "checkout-button"
-);
-
-
-
-// ======================================================
-// FORM ĐẶT HÀNG
-// ======================================================
-
-const checkoutModal = document.getElementById(
-    "checkout-modal"
-);
-
-const closeCheckout = document.getElementById(
-    "close-checkout"
-);
-
-const checkoutForm = document.getElementById(
-    "checkout-form"
-);
-
-
-
-// ======================================================
-// MODAL CHI TIẾT SẢN PHẨM
-// ======================================================
-
-const productDetailModal = document.getElementById(
-    "product-detail-modal"
-);
-
-const closeProductDetail = document.getElementById(
-    "close-product-detail"
-);
-
-const detailImage = document.getElementById(
-    "detail-image"
-);
-
-const detailBrand = document.getElementById(
-    "detail-brand"
-);
-
-const detailName = document.getElementById(
-    "detail-name"
-);
-
-const detailPrice = document.getElementById(
-    "detail-price"
-);
-
-const detailStorage = document.getElementById(
-    "detail-storage"
-);
-
-const detailRam = document.getElementById(
-    "detail-ram"
-);
-
-const detailScreen = document.getElementById(
-    "detail-screen"
-);
-
-const detailCamera = document.getElementById(
-    "detail-camera"
-);
-
-const detailColor = document.getElementById(
-    "detail-color"
-);
-
-const detailAddCart = document.getElementById(
-    "detail-add-cart"
-);
-
-
-
-// ======================================================
-// SO SÁNH SẢN PHẨM
-// ======================================================
-
-const compareBar = document.getElementById(
-    "compare-bar"
-);
-
-const compareCount = document.getElementById(
-    "compare-count"
-);
-
-const clearCompareButton = document.getElementById(
-    "clear-compare"
-);
-
-const openCompareButton = document.getElementById(
-    "open-compare"
-);
-
-const compareModal = document.getElementById(
-    "compare-modal"
-);
-
-const closeCompare = document.getElementById(
-    "close-compare"
-);
-
-const compareTableHead = document.getElementById(
-    "compare-table-head"
-);
-
-const compareTableBody = document.getElementById(
-    "compare-table-body"
-);
-
-
-
-// ======================================================
-// 2. BIẾN DỮ LIỆU
-// ======================================================
-
-let cart = [];
-
-let selectedBrand = "all";
-
-// Sản phẩm đang mở trong modal chi tiết
-let selectedProductCard = null;
-
-// Danh sách sản phẩm đang được chọn để so sánh
-let compareProducts = [];
-
-
-
-// ======================================================
-// 3. HÀM ĐỊNH DẠNG GIÁ
-// ======================================================
-
-function formatPrice(price) {
-
-    return Number(price).toLocaleString("vi-VN") + "đ";
-
-}
-
-
-
-// ======================================================
-// 4. TÌM KIẾM + LỌC THEO HÃNG
-// ======================================================
-
-function filterProducts() {
-
-    const keyword = searchInput.value
-        .toLowerCase()
-        .trim();
-
-
-    productCards.forEach((card) => {
-
-        const productName = card
-            .querySelector("h3")
-            .textContent
-            .toLowerCase();
-
-
-        const productBrand =
-            card.dataset.brand;
-
-
-        const matchesSearch =
-            productName.includes(keyword);
-
-
-        const matchesBrand =
-            selectedBrand === "all" ||
-            productBrand === selectedBrand;
-
-
-        if (matchesSearch && matchesBrand) {
-
-            card.style.display = "flex";
-
-        } else {
-
-            card.style.display = "none";
-
-        }
-
-    });
-
-}
-
-
-
-// ======================================================
-// 5. TÌM KIẾM
-// ======================================================
-
-searchButton.addEventListener(
-    "click",
-    filterProducts
-);
-
-
-// Nhấn Enter để tìm kiếm
-searchInput.addEventListener(
-    "keyup",
-    (event) => {
-
-        if (event.key === "Enter") {
-
-            filterProducts();
-
-        }
-
-    }
-);
-
-
-// Tìm ngay khi nhập
-searchInput.addEventListener(
-    "input",
-    filterProducts
-);
-
-
-
-// ======================================================
-// 6. LỌC THEO HÃNG
-// ======================================================
-
-filterButtons.forEach((button) => {
-
-    button.addEventListener("click", () => {
-
-        selectedBrand =
-            button.dataset.brand;
-
-
-        // Bỏ active tất cả
-        filterButtons.forEach((btn) => {
-
-            btn.classList.remove("active");
-
-        });
-
-
-        // Active nút hiện tại
-        button.classList.add("active");
-
-
-        filterProducts();
-
-    });
-
-});
-
-
-
-// ======================================================
-// 7. SẮP XẾP SẢN PHẨM
-// ======================================================
-
-sortProducts.addEventListener("change", () => {
-
-    const sortValue =
-        sortProducts.value;
-
-
-    const sortedProducts =
-        [...productCards];
-
-
-    // Giá thấp -> cao
-    if (sortValue === "price-asc") {
-
-        sortedProducts.sort((a, b) => {
-
-            return (
-                Number(a.dataset.price) -
-                Number(b.dataset.price)
-            );
-
-        });
-
-    }
-
-
-    // Giá cao -> thấp
-    else if (sortValue === "price-desc") {
-
-        sortedProducts.sort((a, b) => {
-
-            return (
-                Number(b.dataset.price) -
-                Number(a.dataset.price)
-            );
-
-        });
-
-    }
-
-
-    // Trở lại thứ tự mặc định
-    else {
-
-        sortedProducts.sort((a, b) => {
-
-            return (
-                productCards.indexOf(a) -
-                productCards.indexOf(b)
-            );
-
-        });
-
-    }
-
-
-    // Đưa lại vào HTML
-    sortedProducts.forEach((product) => {
-
-        productList.appendChild(product);
-
-    });
-
-
-    // Giữ nguyên bộ lọc
-    filterProducts();
-
-});
-
-
-
-// ======================================================
-// 8. LẤY THÔNG TIN SẢN PHẨM
-// ======================================================
-
-function getProductInfo(productCard) {
-
-    const name = productCard
-        .querySelector("h3")
-        .textContent
-        .trim();
-
-
-    const image = productCard
-        .querySelector(".product-image img")
-        .getAttribute("src");
-
-
-    const brand = productCard
-        .querySelector(".product-brand")
-        .textContent
-        .trim();
-
-
-    const price =
-        Number(productCard.dataset.price);
-
-
-    const storage =
-        productCard.dataset.storage || "Đang cập nhật";
-
-
-    const ram =
-        productCard.dataset.ram || "Đang cập nhật";
-
-
-    const screen =
-        productCard.dataset.screen || "Đang cập nhật";
-
-
-    const camera =
-        productCard.dataset.camera || "Đang cập nhật";
-
-
-    const color =
-        productCard.dataset.color || "Đang cập nhật";
-
-
-    return {
-
-        name,
-        image,
-        brand,
-        price,
-        storage,
-        ram,
-        screen,
-        camera,
-        color
-
-    };
-
-}
-
-
-
-// ======================================================
-// 9. MỞ CHI TIẾT SẢN PHẨM
-// ======================================================
-
-detailButtons.forEach((button) => {
-
-    button.addEventListener("click", () => {
-
-        const productCard = button.closest(
-            ".product-card"
-        );
-
-
-        selectedProductCard =
-            productCard;
-
-
-        const product =
-            getProductInfo(productCard);
-
-
-        // Đưa dữ liệu vào modal
-        detailImage.src =
-            product.image;
-
-        detailImage.alt =
-            product.name;
-
-        detailBrand.textContent =
-            product.brand;
-
-        detailName.textContent =
-            product.name;
-
-        detailPrice.textContent =
-            formatPrice(product.price);
-
-        detailStorage.textContent =
-            product.storage;
-
-        detailRam.textContent =
-            product.ram;
-
-        detailScreen.textContent =
-            product.screen;
-
-        detailCamera.textContent =
-            product.camera;
-
-        detailColor.textContent =
-            product.color;
-
-
-        // Hiện modal
-        productDetailModal.style.display =
-            "block";
-
-
-        // Không cho trang phía sau cuộn
-        document.body.style.overflow =
-            "hidden";
-
-    });
-
-});
-
-
-
-// ======================================================
-// 10. ĐÓNG CHI TIẾT SẢN PHẨM
-// ======================================================
-
-function closeDetailModal() {
-
-    productDetailModal.style.display =
-        "none";
-
-    document.body.style.overflow =
-        "";
-
-}
-
-
-closeProductDetail.addEventListener(
-    "click",
-    closeDetailModal
-);
-
-
-
-// ======================================================
-// 11. HÀM THÊM SẢN PHẨM VÀO GIỎ
-// ======================================================
-
-function addProductToCart(productCard) {
-
-    const product =
-        getProductInfo(productCard);
-
-
-    // Kiểm tra sản phẩm đã có chưa
-    const existingProduct = cart.find(
-
-        (item) =>
-            item.name === product.name
-
+    const productList = document.getElementById("product-list");
+    const productCards = Array.from(
+        document.querySelectorAll(".product-card")
     );
 
+    const filterButtons = document.querySelectorAll(".filter-button");
+    const sortProducts = document.getElementById("sort-products");
 
-    if (existingProduct) {
+    const cartButton = document.getElementById("cart-button");
+    const cartCount = document.getElementById("cart-count");
+    const cartModal = document.getElementById("cart-modal");
+    const closeCart = document.getElementById("close-cart");
+    const cartItems = document.getElementById("cart-items");
+    const cartTotal = document.getElementById("cart-total");
+    const checkoutButton = document.getElementById("checkout-button");
 
-        existingProduct.quantity++;
+    const checkoutModal = document.getElementById("checkout-modal");
+    const closeCheckout = document.getElementById("close-checkout");
+    const checkoutForm = document.getElementById("checkout-form");
 
-    } else {
-
-        cart.push({
-
-            name: product.name,
-
-            price: product.price,
-
-            image: product.image,
-
-            quantity: 1
-
-        });
-
-    }
-
-
-    renderCart();
-
-}
-
-
-
-// ======================================================
-// 12. THÊM GIỎ TỪ CARD
-// ======================================================
-
-addToCartButtons.forEach((button) => {
-
-    button.addEventListener("click", () => {
-
-        const productCard = button.closest(
-            ".product-card"
-        );
-
-
-        addProductToCart(productCard);
-
-
-        // Hiệu ứng nút
-        const originalText =
-            button.textContent;
-
-
-        button.textContent =
-            "✓ Đã thêm";
-
-
-        button.disabled =
-            true;
-
-
-        setTimeout(() => {
-
-            button.textContent =
-                originalText;
-
-            button.disabled =
-                false;
-
-        }, 700);
-
-    });
-
-});
-
-
-
-// ======================================================
-// 13. THÊM GIỎ TỪ MODAL CHI TIẾT
-// ======================================================
-
-detailAddCart.addEventListener("click", () => {
-
-    if (!selectedProductCard) {
-
-        return;
-
-    }
-
-
-    addProductToCart(
-        selectedProductCard
+    const productDetailModal = document.getElementById(
+        "product-detail-modal"
     );
 
-
-    const originalText =
-        detailAddCart.textContent;
-
-
-    detailAddCart.textContent =
-        "✓ Đã thêm vào giỏ";
-
-
-    detailAddCart.disabled =
-        true;
-
-
-    setTimeout(() => {
-
-        detailAddCart.textContent =
-            originalText;
-
-        detailAddCart.disabled =
-            false;
-
-    }, 800);
-
-});
-
-
-
-// ======================================================
-// 14. SO SÁNH - CẬP NHẬT THANH SO SÁNH
-// ======================================================
-
-function updateCompareBar() {
-
-    const total =
-        compareProducts.length;
-
-
-    compareCount.textContent =
-        `Đã chọn ${total}/3 sản phẩm`;
-
-
-    // Chưa chọn sản phẩm nào -> ẩn thanh so sánh
-    if (total === 0) {
-
-        compareBar.classList.remove("show");
-
-    } else {
-
-        compareBar.classList.add("show");
-
-    }
-
-
-    // Phải chọn ít nhất 2 sản phẩm mới so sánh được
-    openCompareButton.disabled =
-        total < 2;
-
-
-    // Cập nhật trạng thái nút trên từng card
-    productCards.forEach((card) => {
-
-        const button =
-            card.querySelector(".compare-button");
-
-
-        if (!button) {
-
-            return;
-
-        }
-
-
-        const isSelected =
-            compareProducts.includes(card);
-
-
-        if (isSelected) {
-
-            button.classList.add("selected");
-
-            button.textContent =
-                "✓ Đã chọn";
-
-        } else {
-
-            button.classList.remove("selected");
-
-            button.textContent =
-                "⚖️ So sánh";
-
-        }
-
-    });
-
-}
-
-
-
-// ======================================================
-// 15. SO SÁNH - CHỌN SẢN PHẨM
-// ======================================================
-
-compareButtons.forEach((button) => {
-
-    button.addEventListener("click", () => {
-
-        const productCard =
-            button.closest(".product-card");
-
-
-        const selectedIndex =
-            compareProducts.indexOf(productCard);
-
-
-        // Nếu đã chọn -> bấm lại để bỏ chọn
-        if (selectedIndex !== -1) {
-
-            compareProducts.splice(
-                selectedIndex,
-                1
-            );
-
-            updateCompareBar();
-
-            return;
-
-        }
-
-
-        // Tối đa 3 sản phẩm
-        if (compareProducts.length >= 3) {
-
-            alert(
-                "Bạn chỉ có thể so sánh tối đa 3 sản phẩm!"
-            );
-
-            return;
-
-        }
-
-
-        // Thêm sản phẩm vào danh sách so sánh
-        compareProducts.push(
-            productCard
-        );
-
-
-        updateCompareBar();
-
-    });
-
-});
-
-
-
-// ======================================================
-// 16. SO SÁNH - XÓA TẤT CẢ
-// ======================================================
-
-clearCompareButton.addEventListener(
-    "click",
-    () => {
-
-        compareProducts = [];
-
-        updateCompareBar();
-
-        closeCompareModal();
-
-    }
-);
-
-
-
-// ======================================================
-// 17. SO SÁNH - TẠO BẢNG
-// ======================================================
-
-function renderCompareTable() {
-
-    const products =
-        compareProducts.map(
-            (card) => getProductInfo(card)
-        );
-
-
-    // ==================================================
-    // PHẦN ĐẦU BẢNG
-    // ==================================================
-
-    compareTableHead.innerHTML = "";
-
-
-    const headerRow =
-        document.createElement("tr");
-
-
-    const featureHeader =
-        document.createElement("th");
-
-
-    featureHeader.textContent =
-        "Thông số";
-
-
-    headerRow.appendChild(
-        featureHeader
+    const closeProductDetail = document.getElementById(
+        "close-product-detail"
     );
 
+    const detailImage = document.getElementById("detail-image");
+    const detailBrand = document.getElementById("detail-brand");
+    const detailName = document.getElementById("detail-name");
+    const detailPrice = document.getElementById("detail-price");
+    const detailStorage = document.getElementById("detail-storage");
+    const detailRam = document.getElementById("detail-ram");
+    const detailScreen = document.getElementById("detail-screen");
+    const detailCamera = document.getElementById("detail-camera");
+    const detailColor = document.getElementById("detail-color");
+    const detailAddCart = document.getElementById("detail-add-cart");
 
-    products.forEach((product) => {
-
-        const productHeader =
-            document.createElement("th");
-
-
-        productHeader.innerHTML = `
-
-            <div class="compare-product">
-
-                <img
-                    src="${product.image}"
-                    alt="${product.name}"
-                >
-
-                <strong>
-                    ${product.name}
-                </strong>
-
-                <span>
-                    ${product.brand}
-                </span>
-
-            </div>
-
-        `;
-
-
-        headerRow.appendChild(
-            productHeader
-        );
-
-    });
-
-
-    compareTableHead.appendChild(
-        headerRow
+    const compareBar = document.getElementById("compare-bar");
+    const compareCount = document.getElementById("compare-count");
+    const clearCompareButton = document.getElementById("clear-compare");
+    const openCompareButton = document.getElementById("open-compare");
+    const compareModal = document.getElementById("compare-modal");
+    const closeCompare = document.getElementById("close-compare");
+    const compareTableHead = document.getElementById(
+        "compare-table-head"
+    );
+    const compareTableBody = document.getElementById(
+        "compare-table-body"
     );
 
+    // =====================================================
+    // 2. CẤU HÌNH VÀ BIẾN DỮ LIỆU
+    // =====================================================
 
+    const CART_KEY = "phone_mdz_cart_v1";
+    const ORDERS_KEY = "phone_mdz_demo_orders_v1";
+    const MAX_COMPARE = 3;
 
-    // ==================================================
-    // CÁC THÔNG SỐ CẦN SO SÁNH
-    // ==================================================
+    let cart = [];
+    let selectedBrand = "all";
+    let selectedProductCard = null;
+    let compareProducts = [];
 
-    const specifications = [
+    // =====================================================
+    // 3. CÁC HÀM HỖ TRỢ
+    // =====================================================
 
-        {
-            label: "💰 Giá",
-            key: "price"
-        },
+    function formatPrice(price) {
+        return Number(price).toLocaleString("vi-VN") + "đ";
+    }
 
-        {
-            label: "💾 Bộ nhớ",
-            key: "storage"
-        },
+    function safeReadStorage(key, fallback) {
+        try {
+            const raw = localStorage.getItem(key);
+            return raw ? JSON.parse(raw) : fallback;
+        } catch (error) {
+            console.warn("Không đọc được dữ liệu:", error);
+            return fallback;
+        }
+    }
 
-        {
-            label: "⚡ RAM",
-            key: "ram"
-        },
+    function saveCart() {
+        try {
+            localStorage.setItem(CART_KEY, JSON.stringify(cart));
+        } catch (error) {
+            console.warn("Không lưu được giỏ hàng:", error);
+        }
+    }
 
-        {
-            label: "📱 Màn hình",
-            key: "screen"
-        },
+    function loadCart() {
+        const savedCart = safeReadStorage(CART_KEY, []);
 
-        {
-            label: "📷 Camera",
-            key: "camera"
-        },
-
-        {
-            label: "🎨 Màu sắc",
-            key: "color"
+        if (!Array.isArray(savedCart)) {
+            return [];
         }
 
-    ];
+        // Chỉ lấy những sản phẩm có trong danh sách HTML hiện tại.
+        const validProducts = productCards.map(getProductInfo);
 
-
-    compareTableBody.innerHTML =
-        "";
-
-
-    specifications.forEach(
-        (specification) => {
-
-            const row =
-                document.createElement("tr");
-
-
-            const labelCell =
-                document.createElement("th");
-
-
-            labelCell.textContent =
-                specification.label;
-
-
-            row.appendChild(
-                labelCell
-            );
-
-
-            products.forEach((product) => {
-
-                const valueCell =
-                    document.createElement("td");
-
-
-                if (
-                    specification.key ===
-                    "price"
-                ) {
-
-                    valueCell.textContent =
-                        formatPrice(
-                            product.price
-                        );
-
-                } else {
-
-                    valueCell.textContent =
-                        product[
-                            specification.key
-                        ];
-
-                }
-
-
-                row.appendChild(
-                    valueCell
+        return savedCart
+            .filter(item => {
+                const product = validProducts.find(
+                    p => p.name === item.name
                 );
 
+                return product &&
+                    Number.isInteger(Number(item.quantity)) &&
+                    Number(item.quantity) > 0;
+            })
+            .map(item => {
+                const product = validProducts.find(
+                    p => p.name === item.name
+                );
+
+                return {
+                    name: product.name,
+                    price: product.price,
+                    image: product.image,
+                    quantity: Math.min(Number(item.quantity), 99)
+                };
+            });
+    }
+
+    function showMessage(message) {
+        alert(message);
+    }
+
+    function getProductInfo(card) {
+        return {
+            name: card.querySelector("h3").textContent.trim(),
+            image: card.querySelector(".product-image img")
+                .getAttribute("src"),
+
+            brand: card.querySelector(".product-brand")
+                .textContent.trim(),
+
+            price: Number(card.dataset.price),
+            storage: card.dataset.storage || "Đang cập nhật",
+            ram: card.dataset.ram || "Đang cập nhật",
+            screen: card.dataset.screen || "Đang cập nhật",
+            camera: card.dataset.camera || "Đang cập nhật",
+            color: card.dataset.color || "Đang cập nhật"
+        };
+    }
+
+    function calculateCartTotal() {
+        return cart.reduce(
+            (sum, item) => sum + item.price * item.quantity,
+            0
+        );
+    }
+
+    function calculateCartQuantity() {
+        return cart.reduce(
+            (sum, item) => sum + item.quantity,
+            0
+        );
+    }
+
+    function syncBodyScroll() {
+        const modals = [
+            productDetailModal,
+            compareModal,
+            cartModal,
+            checkoutModal
+        ];
+
+        const hasOpenModal = modals.some(
+            modal => modal && modal.style.display === "block"
+        );
+
+        document.body.style.overflow = hasOpenModal ? "hidden" : "";
+    }
+
+    function openModal(modal) {
+        if (!modal) return;
+
+        [
+            productDetailModal,
+            compareModal,
+            cartModal,
+            checkoutModal
+        ].forEach(item => {
+            if (item) item.style.display = "none";
+        });
+
+        modal.style.display = "block";
+        syncBodyScroll();
+    }
+
+    function hideModal(modal) {
+        if (!modal) return;
+
+        modal.style.display = "none";
+        syncBodyScroll();
+    }
+
+    function flashButton(button, message) {
+        const originalText = button.textContent;
+
+        button.textContent = message;
+        button.disabled = true;
+
+        setTimeout(() => {
+            button.textContent = originalText;
+            button.disabled = false;
+        }, 750);
+    }
+
+    // =====================================================
+    // 4. TÌM KIẾM VÀ LỌC SẢN PHẨM
+    // =====================================================
+
+    function filterProducts() {
+        const keyword = (searchInput?.value || "")
+            .toLocaleLowerCase("vi-VN")
+            .trim();
+
+        let visibleCount = 0;
+
+        productCards.forEach(card => {
+            const product = getProductInfo(card);
+
+            const matchSearch = product.name
+                .toLocaleLowerCase("vi-VN")
+                .includes(keyword);
+
+            const matchBrand =
+                selectedBrand === "all" ||
+                card.dataset.brand === selectedBrand;
+
+            const visible = matchSearch && matchBrand;
+
+            card.style.display = visible ? "flex" : "none";
+
+            if (visible) visibleCount++;
+        });
+
+        let emptyMessage = document.getElementById("empty-products");
+
+        if (!emptyMessage) {
+            emptyMessage = document.createElement("p");
+            emptyMessage.id = "empty-products";
+            emptyMessage.style.cssText = `
+                display: none;
+                text-align: center;
+                padding: 25px;
+                color: #777;
+                background: white;
+                border-radius: 10px;
+                margin-top: 15px;
+            `;
+
+            productList.insertAdjacentElement(
+                "afterend",
+                emptyMessage
+            );
+        }
+
+        emptyMessage.textContent =
+            "Không tìm thấy sản phẩm phù hợp.";
+
+        emptyMessage.style.display =
+            visibleCount === 0 ? "block" : "none";
+    }
+
+    searchButton?.addEventListener("click", filterProducts);
+    searchInput?.addEventListener("input", filterProducts);
+
+    searchInput?.addEventListener("keydown", event => {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            filterProducts();
+        }
+    });
+
+    filterButtons.forEach(button => {
+        button.addEventListener("click", () => {
+            selectedBrand = button.dataset.brand || "all";
+
+            filterButtons.forEach(btn => {
+                btn.classList.remove("active");
             });
 
+            button.classList.add("active");
+            filterProducts();
+        });
+    });
 
-            compareTableBody.appendChild(
-                row
+    // =====================================================
+    // 5. SẮP XẾP GIÁ
+    // =====================================================
+
+    sortProducts?.addEventListener("change", () => {
+        const value = sortProducts.value;
+        const sorted = [...productCards];
+
+        if (value === "price-asc") {
+            sorted.sort(
+                (a, b) => Number(a.dataset.price) -
+                    Number(b.dataset.price)
             );
-
-        }
-    );
-
-}
-
-
-
-// ======================================================
-// 18. SO SÁNH - MỞ MODAL
-// ======================================================
-
-openCompareButton.addEventListener(
-    "click",
-    () => {
-
-        if (compareProducts.length < 2) {
-
-            alert(
-                "Hãy chọn ít nhất 2 sản phẩm để so sánh!"
+        } else if (value === "price-desc") {
+            sorted.sort(
+                (a, b) => Number(b.dataset.price) -
+                    Number(a.dataset.price)
             );
-
-            return;
-
+        } else {
+            sorted.sort(
+                (a, b) => productCards.indexOf(a) -
+                    productCards.indexOf(b)
+            );
         }
 
+        sorted.forEach(card => productList.appendChild(card));
+        filterProducts();
+    });
 
-        renderCompareTable();
+    // =====================================================
+    // 6. CHI TIẾT SẢN PHẨM
+    // =====================================================
 
+    function showProductDetail(card) {
+        selectedProductCard = card;
+        const product = getProductInfo(card);
 
-        // Đóng các modal khác nếu đang mở
-        productDetailModal.style.display =
-            "none";
+        detailImage.src = product.image;
+        detailImage.alt = product.name;
 
-        cartModal.style.display =
-            "none";
+        detailBrand.textContent = product.brand;
+        detailName.textContent = product.name;
+        detailPrice.textContent = formatPrice(product.price);
 
-        checkoutModal.style.display =
-            "none";
+        detailStorage.textContent = product.storage;
+        detailRam.textContent = product.ram;
+        detailScreen.textContent = product.screen;
+        detailCamera.textContent = product.camera;
+        detailColor.textContent = product.color;
 
-
-        compareModal.style.display =
-            "block";
-
-
-        document.body.style.overflow =
-            "hidden";
-
+        openModal(productDetailModal);
     }
-);
 
+    document.querySelectorAll(".detail-button").forEach(button => {
+        button.addEventListener("click", () => {
+            const card = button.closest(".product-card");
+            if (card) showProductDetail(card);
+        });
+    });
 
+    closeProductDetail?.addEventListener("click", () => {
+        hideModal(productDetailModal);
+    });
 
-// ======================================================
-// 19. SO SÁNH - ĐÓNG MODAL
-// ======================================================
+    // =====================================================
+    // 7. THÊM VÀO GIỎ HÀNG
+    // =====================================================
 
-function closeCompareModal() {
+    function addProductToCart(card) {
+        const product = getProductInfo(card);
 
-    compareModal.style.display =
-        "none";
+        const existing = cart.find(
+            item => item.name === product.name
+        );
 
-    document.body.style.overflow =
-        "";
+        if (existing) {
+            if (existing.quantity >= 99) {
+                showMessage("Số lượng tối đa là 99 sản phẩm.");
+                return false;
+            }
 
-}
+            existing.quantity++;
+        } else {
+            cart.push({
+                name: product.name,
+                price: product.price,
+                image: product.image,
+                quantity: 1
+            });
+        }
 
+        renderCart();
+        return true;
+    }
 
-closeCompare.addEventListener(
-    "click",
-    closeCompareModal
-);
+    document.querySelectorAll(".add-cart-button").forEach(button => {
+        button.addEventListener("click", () => {
+            const card = button.closest(".product-card");
 
+            if (card && addProductToCart(card)) {
+                flashButton(button, "✓ Đã thêm");
+            }
+        });
+    });
 
+    detailAddCart?.addEventListener("click", () => {
+        if (!selectedProductCard) return;
 
-// ======================================================
-// 20. MỞ GIỎ HÀNG
-// ======================================================
+        if (addProductToCart(selectedProductCard)) {
+            flashButton(detailAddCart, "✓ Đã thêm vào giỏ");
+        }
+    });
 
-cartButton.addEventListener("click", () => {
+    // =====================================================
+    // 8. HIỂN THỊ GIỎ HÀNG
+    // =====================================================
 
-    // Đóng modal chi tiết nếu đang mở
-    productDetailModal.style.display =
-        "none";
+    function renderCart() {
+        cartItems.innerHTML = "";
 
+        if (cart.length === 0) {
+            const empty = document.createElement("div");
 
-    // Đóng modal so sánh nếu đang mở
-    compareModal.style.display =
-        "none";
-
-
-    cartModal.style.display =
-        "block";
-
-
-    document.body.style.overflow =
-        "hidden";
-
-});
-
-
-
-// ======================================================
-// 21. ĐÓNG GIỎ HÀNG
-// ======================================================
-
-function closeCartModal() {
-
-    cartModal.style.display =
-        "none";
-
-    document.body.style.overflow =
-        "";
-
-}
-
-
-closeCart.addEventListener(
-    "click",
-    closeCartModal
-);
-
-
-
-// ======================================================
-// 22. HIỂN THỊ GIỎ HÀNG
-// ======================================================
-
-function renderCart() {
-
-    cartItems.innerHTML = "";
-
-
-    // Giỏ trống
-    if (cart.length === 0) {
-
-        cartItems.innerHTML = `
-
-            <div style="
+            empty.style.cssText = `
                 text-align: center;
                 padding: 30px 10px;
                 color: #777;
-            ">
+            `;
 
-                <div style="
-                    font-size: 45px;
-                    margin-bottom: 8px;
-                ">
-                    🛒
-                </div>
+            empty.textContent = "🛒 Giỏ hàng đang trống.";
 
-                <p>
-                    Giỏ hàng đang trống.
-                </p>
+            cartItems.appendChild(empty);
+        } else {
+            cart.forEach((product, index) => {
+                const item = document.createElement("div");
+                item.className = "cart-item";
 
-            </div>
+                const name = document.createElement("span");
+                name.className = "cart-product-name";
+                name.textContent = product.name;
 
-        `;
+                const controls = document.createElement("div");
+                controls.className = "quantity-control";
 
-    }
+                const minus = document.createElement("button");
+                minus.type = "button";
+                minus.textContent = "−";
+                minus.title = "Giảm số lượng";
+                minus.addEventListener("click", () => {
+                    decreaseQuantity(index);
+                });
 
+                const quantity = document.createElement("span");
+                quantity.textContent = product.quantity;
 
-    // Có sản phẩm
-    else {
+                const plus = document.createElement("button");
+                plus.type = "button";
+                plus.textContent = "+";
+                plus.title = "Tăng số lượng";
+                plus.addEventListener("click", () => {
+                    increaseQuantity(index);
+                });
 
-        cart.forEach(
-            (product, index) => {
+                controls.append(minus, quantity, plus);
 
-                const item =
-                    document.createElement("div");
+                const price = document.createElement("strong");
+                price.textContent = formatPrice(
+                    product.price * product.quantity
+                );
 
+                const remove = document.createElement("button");
+                remove.type = "button";
+                remove.className = "remove-button";
+                remove.textContent = "Xóa";
 
-                item.className =
-                    "cart-item";
+                remove.addEventListener("click", () => {
+                    removeFromCart(index);
+                });
 
-
-                item.innerHTML = `
-
-                    <span class="cart-product-name">
-
-                        ${product.name}
-
-                    </span>
-
-
-                    <div class="quantity-control">
-
-                        <button
-                            type="button"
-                            onclick="decreaseQuantity(${index})"
-                            title="Giảm số lượng"
-                        >
-                            −
-                        </button>
-
-
-                        <span>
-                            ${product.quantity}
-                        </span>
-
-
-                        <button
-                            type="button"
-                            onclick="increaseQuantity(${index})"
-                            title="Tăng số lượng"
-                        >
-                            +
-                        </button>
-
-                    </div>
-
-
-                    <strong>
-
-                        ${formatPrice(
-                            product.price *
-                            product.quantity
-                        )}
-
-                    </strong>
-
-
-                    <button
-                        type="button"
-                        class="remove-button"
-                        onclick="removeFromCart(${index})"
-                    >
-                        Xóa
-                    </button>
-
-                `;
-
-
+                item.append(name, controls, price, remove);
                 cartItems.appendChild(item);
-
-            }
-        );
-
-    }
-
-
-    // Tổng số lượng
-    const totalQuantity =
-        cart.reduce(
-            (sum, product) => {
-
-                return (
-                    sum +
-                    product.quantity
-                );
-
-            },
-            0
-        );
-
-
-    cartCount.textContent =
-        totalQuantity;
-
-
-    // Tổng tiền
-    const totalPrice =
-        cart.reduce(
-            (sum, product) => {
-
-                return (
-                    sum +
-                    product.price *
-                    product.quantity
-                );
-
-            },
-            0
-        );
-
-
-    cartTotal.textContent =
-        formatPrice(totalPrice);
-
-}
-
-
-
-// ======================================================
-// 23. TĂNG SỐ LƯỢNG
-// ======================================================
-
-function increaseQuantity(index) {
-
-    if (!cart[index]) {
-
-        return;
-
-    }
-
-
-    cart[index].quantity++;
-
-
-    renderCart();
-
-}
-
-
-
-// ======================================================
-// 24. GIẢM SỐ LƯỢNG
-// ======================================================
-
-function decreaseQuantity(index) {
-
-    if (!cart[index]) {
-
-        return;
-
-    }
-
-
-    if (cart[index].quantity > 1) {
-
-        cart[index].quantity--;
-
-    } else {
-
-        cart.splice(index, 1);
-
-    }
-
-
-    renderCart();
-
-}
-
-
-
-// ======================================================
-// 25. XÓA SẢN PHẨM
-// ======================================================
-
-function removeFromCart(index) {
-
-    if (!cart[index]) {
-
-        return;
-
-    }
-
-
-    cart.splice(index, 1);
-
-
-    renderCart();
-
-}
-
-
-
-// ======================================================
-// 26. ĐẶT HÀNG
-// ======================================================
-
-checkoutButton.addEventListener("click", () => {
-
-    if (cart.length === 0) {
-
-        alert(
-            "Giỏ hàng đang trống.\n" +
-            "Hãy thêm sản phẩm trước khi đặt hàng!"
-        );
-
-        return;
-
-    }
-
-
-    cartModal.style.display =
-        "none";
-
-
-    checkoutModal.style.display =
-        "block";
-
-
-    document.body.style.overflow =
-        "hidden";
-
-});
-
-
-
-// ======================================================
-// 27. ĐÓNG FORM ĐẶT HÀNG
-// ======================================================
-
-function closeCheckoutModal() {
-
-    checkoutModal.style.display =
-        "none";
-
-
-    document.body.style.overflow =
-        "";
-
-}
-
-
-closeCheckout.addEventListener(
-    "click",
-    closeCheckoutModal
-);
-
-
-
-// ======================================================
-// 28. CLICK RA NGOÀI MODAL
-// ======================================================
-
-window.addEventListener(
-    "click",
-    (event) => {
-
-
-        // Chi tiết
-        if (
-            event.target ===
-            productDetailModal
-        ) {
-
-            closeDetailModal();
-
+            });
         }
 
+        cartCount.textContent = calculateCartQuantity();
+        cartTotal.textContent = formatPrice(calculateCartTotal());
 
-        // So sánh
-        if (
-            event.target ===
-            compareModal
-        ) {
-
-            closeCompareModal();
-
+        if (checkoutButton) {
+            checkoutButton.disabled = cart.length === 0;
         }
 
-
-        // Giỏ hàng
-        if (
-            event.target ===
-            cartModal
-        ) {
-
-            closeCartModal();
-
-        }
-
-
-        // Checkout
-        if (
-            event.target ===
-            checkoutModal
-        ) {
-
-            closeCheckoutModal();
-
-        }
-
+        saveCart();
     }
-);
 
+    function increaseQuantity(index) {
+        if (!cart[index]) return;
 
-
-// ======================================================
-// 29. PHÍM ESC ĐÓNG MODAL
-// ======================================================
-
-document.addEventListener(
-    "keydown",
-    (event) => {
-
-        if (event.key !== "Escape") {
-
+        if (cart[index].quantity >= 99) {
+            showMessage("Chỉ được chọn tối đa 99 sản phẩm.");
             return;
-
         }
 
-
-        if (
-            productDetailModal.style.display ===
-            "block"
-        ) {
-
-            closeDetailModal();
-
-        }
-
-
-        if (
-            compareModal.style.display ===
-            "block"
-        ) {
-
-            closeCompareModal();
-
-        }
-
-
-        if (
-            cartModal.style.display ===
-            "block"
-        ) {
-
-            closeCartModal();
-
-        }
-
-
-        if (
-            checkoutModal.style.display ===
-            "block"
-        ) {
-
-            closeCheckoutModal();
-
-        }
-
+        cart[index].quantity++;
+        renderCart();
     }
-);
 
+    function decreaseQuantity(index) {
+        if (!cart[index]) return;
 
-
-// ======================================================
-// 30. XÁC NHẬN ĐẶT HÀNG
-// ======================================================
-
-checkoutForm.addEventListener(
-    "submit",
-    (event) => {
-
-        event.preventDefault();
-
-
-        // ==================================================
-        // LẤY THÔNG TIN
-        // ==================================================
-
-        const customerName =
-            document
-                .getElementById(
-                    "customer-name"
-                )
-                .value
-                .trim();
-
-
-        const customerPhone =
-            document
-                .getElementById(
-                    "customer-phone"
-                )
-                .value
-                .trim();
-
-
-        const customerAddress =
-            document
-                .getElementById(
-                    "customer-address"
-                )
-                .value
-                .trim();
-
-
-        const paymentMethod =
-            document
-                .getElementById(
-                    "payment-method"
-                )
-                .value;
-
-
-        // ==================================================
-        // KIỂM TRA RỖNG
-        // ==================================================
-
-        if (
-            customerName === "" ||
-            customerPhone === "" ||
-            customerAddress === "" ||
-            paymentMethod === ""
-        ) {
-
-            alert(
-                "Vui lòng nhập đầy đủ thông tin đặt hàng!"
-            );
-
-            return;
-
+        if (cart[index].quantity > 1) {
+            cart[index].quantity--;
+        } else {
+            cart.splice(index, 1);
         }
-
-
-        // ==================================================
-        // KIỂM TRA SỐ ĐIỆN THOẠI
-        // ==================================================
-
-        const phoneRegex =
-            /^0\d{9}$/;
-
-
-        if (
-            !phoneRegex.test(
-                customerPhone
-            )
-        ) {
-
-            alert(
-                "Số điện thoại không hợp lệ!\n" +
-                "Số điện thoại phải gồm 10 chữ số " +
-                "và bắt đầu bằng số 0."
-            );
-
-            return;
-
-        }
-
-
-        // ==================================================
-        // TÍNH TỔNG
-        // ==================================================
-
-        const totalPrice =
-            cart.reduce(
-                (sum, product) => {
-
-                    return (
-                        sum +
-                        product.price *
-                        product.quantity
-                    );
-
-                },
-                0
-            );
-
-
-        const totalQuantity =
-            cart.reduce(
-                (sum, product) => {
-
-                    return (
-                        sum +
-                        product.quantity
-                    );
-
-                },
-                0
-            );
-
-
-        // ==================================================
-        // PHƯƠNG THỨC THANH TOÁN
-        // ==================================================
-
-        let paymentText = "";
-
-
-        if (
-            paymentMethod === "cod"
-        ) {
-
-            paymentText =
-                "Thanh toán khi nhận hàng (COD)";
-
-        }
-
-
-        else if (
-            paymentMethod === "bank"
-        ) {
-
-            paymentText =
-                "Chuyển khoản ngân hàng";
-
-        }
-
-
-        // ==================================================
-        // THÔNG BÁO
-        // ==================================================
-
-        alert(
-
-            "🎉 ĐẶT HÀNG THÀNH CÔNG!\n\n" +
-
-            "Khách hàng: " +
-            customerName +
-
-            "\nSố điện thoại: " +
-            customerPhone +
-
-            "\nĐịa chỉ: " +
-            customerAddress +
-
-            "\nThanh toán: " +
-            paymentText +
-
-            "\nSố lượng sản phẩm: " +
-            totalQuantity +
-
-            "\nTổng tiền: " +
-            formatPrice(totalPrice) +
-
-            "\n\nCảm ơn bạn đã mua hàng tại Phone Store!"
-
-        );
-
-
-        // ==================================================
-        // RESET SAU KHI ĐẶT
-        // ==================================================
-
-        cart = [];
-
 
         renderCart();
-
-
-        checkoutForm.reset();
-
-
-        checkoutModal.style.display =
-            "none";
-
-
-        document.body.style.overflow =
-            "";
-
     }
-);
 
+    function removeFromCart(index) {
+        if (!cart[index]) return;
 
+        cart.splice(index, 1);
+        renderCart();
+    }
 
-// ======================================================
-// 31. KHỞI TẠO WEBSITE
-// ======================================================
+    // =====================================================
+    // 9. MỞ GIỎ HÀNG
+    // =====================================================
 
-renderCart();
+    cartButton?.addEventListener("click", () => {
+        renderCart();
+        openModal(cartModal);
+    });
 
-filterProducts();
+    closeCart?.addEventListener("click", () => {
+        hideModal(cartModal);
+    });
 
-updateCompareBar();
+    // =====================================================
+    // 10. CHỌN SẢN PHẨM SO SÁNH
+    // =====================================================
+
+    function updateCompareBar() {
+        const total = compareProducts.length;
+
+        compareCount.textContent =
+            `Đã chọn ${total}/${MAX_COMPARE} sản phẩm`;
+
+        compareBar.classList.toggle("show", total > 0);
+
+        openCompareButton.disabled = total < 2;
+
+        productCards.forEach(card => {
+            const button = card.querySelector(".compare-button");
+
+            if (!button) return;
+
+            const selected = compareProducts.includes(card);
+
+            button.classList.toggle("selected", selected);
+            button.textContent = selected
+                ? "✓ Đã chọn"
+                : "⚖️ So sánh";
+        });
+    }
+
+    document.querySelectorAll(".compare-button").forEach(button => {
+        button.addEventListener("click", () => {
+            const card = button.closest(".product-card");
+
+            if (!card) return;
+
+            const index = compareProducts.indexOf(card);
+
+            if (index !== -1) {
+                compareProducts.splice(index, 1);
+                updateCompareBar();
+                return;
+            }
+
+            if (compareProducts.length >= MAX_COMPARE) {
+                showMessage(
+                    `Chỉ có thể so sánh tối đa ${MAX_COMPARE} sản phẩm!`
+                );
+                return;
+            }
+
+            compareProducts.push(card);
+            updateCompareBar();
+        });
+    });
+
+    clearCompareButton?.addEventListener("click", () => {
+        compareProducts = [];
+        updateCompareBar();
+        hideModal(compareModal);
+    });
+
+    // =====================================================
+    // 11. TẠO BẢNG SO SÁNH
+    // =====================================================
+
+    function renderCompareTable() {
+        const products = compareProducts.map(getProductInfo);
+
+        compareTableHead.innerHTML = "";
+        compareTableBody.innerHTML = "";
+
+        const headerRow = document.createElement("tr");
+
+        const featureHeader = document.createElement("th");
+        featureHeader.textContent = "Thông số";
+        headerRow.appendChild(featureHeader);
+
+        products.forEach(product => {
+            const th = document.createElement("th");
+
+            const box = document.createElement("div");
+            box.className = "compare-product";
+
+            const img = document.createElement("img");
+            img.src = product.image;
+            img.alt = product.name;
+
+            const strong = document.createElement("strong");
+            strong.textContent = product.name;
+
+            const brand = document.createElement("span");
+            brand.textContent = product.brand;
+
+            box.append(img, strong, brand);
+            th.appendChild(box);
+            headerRow.appendChild(th);
+        });
+
+        compareTableHead.appendChild(headerRow);
+
+        const specifications = [
+            { label: "💰 Giá", key: "price" },
+            { label: "💾 Bộ nhớ", key: "storage" },
+            { label: "⚡ RAM", key: "ram" },
+            { label: "📱 Màn hình", key: "screen" },
+            { label: "📷 Camera", key: "camera" },
+            { label: "🎨 Màu sắc", key: "color" }
+        ];
+
+        specifications.forEach(spec => {
+            const row = document.createElement("tr");
+
+            const labelCell = document.createElement("th");
+            labelCell.textContent = spec.label;
+            row.appendChild(labelCell);
+
+            products.forEach(product => {
+                const td = document.createElement("td");
+
+                td.textContent = spec.key === "price"
+                    ? formatPrice(product.price)
+                    : product[spec.key];
+
+                row.appendChild(td);
+            });
+
+            compareTableBody.appendChild(row);
+        });
+    }
+
+    openCompareButton?.addEventListener("click", () => {
+        if (compareProducts.length < 2) {
+            showMessage("Cần chọn ít nhất 2 sản phẩm.");
+            return;
+        }
+
+        renderCompareTable();
+        openModal(compareModal);
+    });
+
+    closeCompare?.addEventListener("click", () => {
+        hideModal(compareModal);
+    });
+
+    // =====================================================
+    // 12. THANH TOÁN
+    // =====================================================
+
+    checkoutButton?.addEventListener("click", () => {
+        if (cart.length === 0) {
+            showMessage("Giỏ hàng đang trống!");
+            return;
+        }
+
+        openModal(checkoutModal);
+    });
+
+    closeCheckout?.addEventListener("click", () => {
+        hideModal(checkoutModal);
+    });
+
+    // =====================================================
+    // 13. TẠO MÃ ĐƠN HÀNG DEMO
+    // =====================================================
+
+    function createOrderCode() {
+        const date = new Date();
+
+        const timestamp = [
+            date.getFullYear(),
+            String(date.getMonth() + 1).padStart(2, "0"),
+            String(date.getDate()).padStart(2, "0"),
+            String(date.getHours()).padStart(2, "0"),
+            String(date.getMinutes()).padStart(2, "0"),
+            String(date.getSeconds()).padStart(2, "0")
+        ].join("");
+
+        const random = Math.random()
+            .toString(36)
+            .slice(2, 8)
+            .toUpperCase();
+
+        return `MDZ${timestamp}${random}`;
+    }
+
+    // =====================================================
+    // 14. XÁC NHẬN ĐẶT HÀNG DEMO
+    // =====================================================
+
+    checkoutForm?.addEventListener("submit", event => {
+        event.preventDefault();
+
+        if (cart.length === 0) {
+            showMessage("Giỏ hàng đang trống!");
+            return;
+        }
+
+        const customerName = document
+            .getElementById("customer-name")
+            .value.trim();
+
+        const customerPhone = document
+            .getElementById("customer-phone")
+            .value.trim();
+
+        const customerAddress = document
+            .getElementById("customer-address")
+            .value.trim();
+
+        const paymentMethod = document
+            .getElementById("payment-method")
+            .value;
+
+        if (
+            !customerName ||
+            !customerPhone ||
+            !customerAddress ||
+            !paymentMethod
+        ) {
+            showMessage("Vui lòng nhập đầy đủ thông tin!");
+            return;
+        }
+
+        if (customerName.length < 2) {
+            showMessage("Họ tên phải có ít nhất 2 ký tự.");
+            return;
+        }
+
+        const phoneRegex = /^0\d{9}$/;
+
+        if (!phoneRegex.test(customerPhone)) {
+            showMessage(
+                "Số điện thoại phải có 10 chữ số và bắt đầu bằng số 0."
+            );
+            return;
+        }
+
+        const validPayments = ["cod", "bank"];
+
+        if (!validPayments.includes(paymentMethod)) {
+            showMessage("Phương thức thanh toán không hợp lệ.");
+            return;
+        }
+
+        const paymentText = paymentMethod === "cod"
+            ? "Thanh toán khi nhận hàng (COD)"
+            : "Chuyển khoản ngân hàng (mô phỏng)";
+
+        const order = {
+            orderCode: createOrderCode(),
+            customerName,
+            customerPhone,
+            customerAddress,
+            paymentMethod,
+            paymentText,
+            items: cart.map(item => ({ ...item })),
+            totalQuantity: calculateCartQuantity(),
+            total: calculateCartTotal(),
+            status: "Chờ xác nhận",
+            createdAt: new Date().toISOString(),
+            source: "html-demo"
+        };
+
+        // Lưu đơn hàng trên chính trình duyệt đang dùng.
+        // Không gửi lên backend hoặc gửi email thật.
+
+        const orders = safeReadStorage(ORDERS_KEY, []);
+
+        const orderHistory = Array.isArray(orders) ? orders : [];
+        orderHistory.push(order);
+
+        try {
+            localStorage.setItem(
+                ORDERS_KEY,
+                JSON.stringify(orderHistory)
+            );
+        } catch (error) {
+            console.error("Không lưu được đơn hàng:", error);
+
+            showMessage(
+                "Không thể lưu đơn hàng trên trình duyệt. " +
+                "Vui lòng kiểm tra bộ nhớ và thử lại."
+            );
+
+            return;
+        }
+
+        showMessage(
+            "🎉 ĐẶT HÀNG DEMO THÀNH CÔNG!\n\n" +
+            "Mã đơn: " + order.orderCode +
+            "\nKhách hàng: " + customerName +
+            "\nSố điện thoại: " + customerPhone +
+            "\nĐịa chỉ: " + customerAddress +
+            "\nThanh toán: " + paymentText +
+            "\nSố lượng: " + order.totalQuantity +
+            "\nTổng tiền: " + formatPrice(order.total) +
+            "\nTrạng thái: " + order.status +
+            "\n\nĐơn được lưu trên trình duyệt này, " +
+            "chưa gửi đến hệ thống quản lý PHONE MDZ."
+        );
+
+        cart = [];
+        renderCart();
+        checkoutForm.reset();
+        hideModal(checkoutModal);
+    });
+
+    // =====================================================
+    // 15. ĐÓNG MODAL KHI CLICK RA NGOÀI
+    // =====================================================
+
+    [
+        productDetailModal,
+        compareModal,
+        cartModal,
+        checkoutModal
+    ].forEach(modal => {
+        if (!modal) return;
+
+        modal.addEventListener("click", event => {
+            if (event.target === modal) {
+                hideModal(modal);
+            }
+        });
+    });
+
+    // =====================================================
+    // 16. ĐÓNG MODAL BẰNG ESC
+    // =====================================================
+
+    document.addEventListener("keydown", event => {
+        if (event.key !== "Escape") return;
+
+        [
+            productDetailModal,
+            compareModal,
+            cartModal,
+            checkoutModal
+        ].forEach(modal => {
+            if (modal && modal.style.display === "block") {
+                hideModal(modal);
+            }
+        });
+    });
+
+    // Hỗ trợ phím Enter khi nút đóng là thẻ span.
+    [
+        closeProductDetail,
+        closeCompare,
+        closeCart,
+        closeCheckout
+    ].forEach(button => {
+        if (!button) return;
+
+        button.addEventListener("keydown", event => {
+            if (event.key === "Enter" || event.key === " ") {
+                event.preventDefault();
+                button.click();
+            }
+        });
+    });
+
+    // =====================================================
+    // 17. KHỞI TẠO WEBSITE
+    // =====================================================
+
+    cart = loadCart();
+
+    renderCart();
+    filterProducts();
+    updateCompareBar();
+
+    
+    // =====================================================
+    // ĐỒNG BỘ TÀI KHOẢN VỚI SQLITE QUA API
+    // =====================================================
+
+    async function loadCurrentUser() {
+        const loginLink = document.getElementById("login-link");
+        const registerLink = document.getElementById("register-link");
+        const userInfo = document.getElementById("user-info");
+        const userName = document.getElementById("user-name");
+        const accountLink = document.getElementById("account-link");
+        const logoutForm = document.getElementById("logout-form");
+
+        // Chỉ chạy khi các phần tử tài khoản đã tồn tại.
+        if (
+            !loginLink || !registerLink || !userInfo ||
+            !userName || !accountLink || !logoutForm
+        ) {
+            return;
+        }
+
+        try {
+            const response = await fetch("/api/me", {
+                credentials: "same-origin",
+                cache: "no-store"
+            });
+
+            if (!response.ok) {
+                throw new Error("Không lấy được thông tin tài khoản.");
+            }
+
+            const data = await response.json();
+
+            if (data.loggedIn && data.user) {
+                loginLink.style.display = "none";
+                registerLink.style.display = "none";
+
+                userInfo.style.display = "inline";
+                userName.textContent = data.user.fullName;
+
+                accountLink.style.display = "inline-block";
+                logoutForm.style.display = "inline-block";
+            } else {
+                loginLink.style.display = "inline-block";
+                registerLink.style.display = "inline-block";
+
+                userInfo.style.display = "none";
+                userName.textContent = "";
+                accountLink.style.display = "none";
+                logoutForm.style.display = "none";
+            }
+        } catch (error) {
+            console.error("Không thể đồng bộ tài khoản:", error);
+        }
+    }
+
+    loadCurrentUser();
+
+    console.log(
+        "PHONE MDZ: Trang bán điện thoại đã khởi tạo thành công."
+    );
+
+});

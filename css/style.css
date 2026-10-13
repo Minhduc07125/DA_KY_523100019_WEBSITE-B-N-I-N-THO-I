@@ -2512,3 +2512,34 @@ footer {
         font-size: 20px;
     }
 }
+
+
+/* =========================================
+   TÀI KHOẢN SAU KHI ĐĂNG NHẬP
+========================================= */
+
+#user-info {
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+#logout-form {
+    margin: 0;
+}
+
+#logout-button {
+    padding: 9px 12px;
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    border-radius: 8px;
+    background: transparent;
+    color: #ffffff;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+#logout-button:hover {
+    background: rgba(255, 255, 255, 0.15);
+}

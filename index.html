@@ -1,39 +1,168 @@
+
 <!DOCTYPE html>
 <html lang="vi">
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+    <meta name="description"
+          content="PHONE MDZ - Website bán điện thoại và phụ kiện, hỗ trợ tìm kiếm, so sánh, đặt hàng và quản lý đơn hàng.">
 
-    <title>
-        Phone Store - Website bán điện thoại
-    </title>
+    <title>PHONE MDZ - Website bán điện thoại và phụ kiện</title>
 
-    <link
-        rel="stylesheet"
-        href="css/style.css"
-    >
+    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+        /* Các thành phần mới bổ sung cho trang chủ */
+
+        .account-links {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .account-links a {
+            color: white;
+            text-decoration: none;
+            border: 1px solid rgba(255,255,255,.55);
+            padding: 9px 12px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        .account-links a:hover {
+            background: rgba(255,255,255,.15);
+        }
+
+        .quick-services {
+            margin: 20px auto 35px;
+        }
+
+        .quick-services h2,
+        .management-section h2 {
+            margin-bottom: 16px;
+        }
+
+        .service-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0,1fr));
+            gap: 15px;
+        }
+
+        .service-card {
+            background: white;
+            border: 1px solid #eeeeee;
+            padding: 18px;
+            border-radius: 12px;
+            text-decoration: none;
+            color: #333333;
+            box-shadow: 0 3px 12px rgba(0,0,0,.05);
+        }
+
+        .service-card:hover {
+            border-color: #d70018;
+            transform: translateY(-2px);
+        }
+
+        .service-card strong {
+            display: block;
+            margin-bottom: 7px;
+            color: #b40012;
+        }
+
+        .service-card span {
+            font-size: 13px;
+            color: #666666;
+        }
+
+        .management-section {
+            margin: 25px auto 50px;
+        }
+
+        .management-panel {
+            background: white;
+            padding: 22px;
+            border-radius: 14px;
+            border: 1px solid #eeeeee;
+        }
+
+        .management-panel p {
+            margin-bottom: 15px;
+            color: #666666;
+        }
+
+        .management-links {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .management-links a {
+            display: inline-block;
+            background: #b40012;
+            color: white;
+            text-decoration: none;
+            padding: 11px 15px;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .management-links a:hover {
+            background: #8f000e;
+        }
+
+        .footer-details {
+            margin-top: 12px;
+            font-size: 13px;
+            opacity: .8;
+        }
+
+        @media (max-width: 1050px) {
+            .header-content {
+                flex-wrap: wrap;
+            }
+
+            .service-grid {
+                grid-template-columns: repeat(2, minmax(0,1fr));
+            }
+        }
+
+        @media (max-width: 600px) {
+            .account-links {
+                justify-content: center;
+            }
+
+            .service-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .management-links {
+                flex-direction: column;
+            }
+
+            .management-links a {
+                text-align: center;
+            }
+        }
+    </style>
 </head>
-
 
 <body>
 
-    <!-- ==================================================
+    <!-- ==========================================
          HEADER
-    =================================================== -->
+    =========================================== -->
 
     <header>
-
         <div class="container header-content">
 
             <div class="logo">
-                📱 Phone Store
+                📱 PHONE MDZ
             </div>
-
 
             <div class="search-box">
 
@@ -41,6 +170,7 @@
                     type="text"
                     id="search-input"
                     placeholder="Bạn muốn tìm điện thoại gì?"
+                    aria-label="Tìm kiếm điện thoại"
                 >
 
                 <button
@@ -52,27 +182,57 @@
 
             </div>
 
+            
+<div class="account-links" id="account-links">
 
-            <div
-                class="cart"
-                id="cart-button"
-            >
+    <!-- CHƯA ĐĂNG NHẬP -->
+    <a href="/login" id="login-link">
+        Đăng nhập
+    </a>
+
+    <a href="/register" id="register-link">
+        Đăng ký
+    </a>
+
+    <!-- ĐÃ ĐĂNG NHẬP -->
+    <span id="user-info" style="display: none;">
+        👤 <span id="user-name"></span>
+    </span>
+
+    <a href="/account"
+       id="account-link"
+       style="display: none;">
+        Tài khoản
+    </a>
+
+    <form action="/logout"
+          method="POST"
+          id="logout-form"
+          style="display: none;">
+
+        <button type="submit" id="logout-button">
+            Đăng xuất
+        </button>
+
+    </form>
+
+</div>
+
+
+            <div class="cart" id="cart-button">
                 🛒 Giỏ hàng
                 (<span id="cart-count">0</span>)
             </div>
 
         </div>
-
     </header>
 
 
-
-    <!-- ==================================================
+    <!-- ==========================================
          MENU
-    =================================================== -->
+    =========================================== -->
 
     <nav>
-
         <ul>
 
             <li>
@@ -88,65 +248,126 @@
             </li>
 
             <li>
-                <a href="#">
-                    Phụ kiện
+                <a href="#services">
+                    Dịch vụ<div class="account-links">
                 </a>
             </li>
 
             <li>
-                <a href="#">
-                    Khuyến mãi
+                <a href="http://localhost:3000/products">
+                    Cửa hàng đầy đủ
                 </a>
             </li>
 
             <li>
-                <a href="#">
-                    Liên hệ
+                <a href="http://localhost:3000/orders">
+                    Đơn hàng
+                </a>
+            </li>
+
+            <li>
+                <a href="#management">
+                    Quản lý
                 </a>
             </li>
 
         </ul>
-
     </nav>
 
 
-
-    <!-- ==================================================
+    <!-- ==========================================
          BANNER
-    =================================================== -->
+    =========================================== -->
 
     <section class="container banner">
 
         <h1>
-            Điện thoại chính hãng
+            PHONE MDZ - Điện thoại chính hãng
         </h1>
 
         <p>
-            Sản phẩm công nghệ mới nhất với mức giá hấp dẫn
+            Điện thoại thông minh, phụ kiện công nghệ
+            với nhiều lựa chọn phù hợp ngân sách.
         </p>
 
     </section>
 
 
+    <!-- ==========================================
+         DỊCH VỤ TÀI KHOẢN
+    =========================================== -->
 
-    <!-- ==================================================
-         SẢN PHẨM
-    =================================================== -->
+    <section class="container quick-services" id="services">
 
-    <main
-        class="container products"
-        id="products"
-    >
+        <h2>
+            🛍️ Dịch vụ khách hàng
+        </h2>
+
+        <div class="service-grid">
+
+            <a
+                class="service-card"
+                href="http://localhost:3000/forgot-password"
+            >
+                <strong>🔑 Quên mật khẩu</strong>
+                <span>
+                    Yêu cầu gửi liên kết khôi phục
+                    mật khẩu qua email.
+                </span>
+            </a>
+
+            <a
+                class="service-card"
+                href="http://localhost:3000/orders"
+            >
+                <strong>📦 Theo dõi đơn hàng</strong>
+                <span>
+                    Kiểm tra lịch sử mua hàng,
+                    trạng thái xử lý và giao hàng.
+                </span>
+            </a>
+
+            <a
+                class="service-card"
+                href="http://localhost:3000/account"
+            >
+                <strong>👤 Tài khoản của tôi</strong>
+                <span>
+                    Xem và cập nhật thông tin
+                    tài khoản khách hàng.
+                </span>
+            </a>
+
+            <a
+                class="service-card"
+                href="http://localhost:3000/suggest"
+            >
+                <strong>💡 Tư vấn sản phẩm</strong>
+                <span>
+                    Tìm điện thoại phù hợp
+                    với nhu cầu và ngân sách.
+                </span>
+            </a>
+
+        </div>
+
+    </section>
+
+
+    <!-- ==========================================
+         DANH SÁCH SẢN PHẨM
+    =========================================== -->
+
+    <main class="container products" id="products">
 
         <h2>
             🔥 Sản phẩm nổi bật
         </h2>
 
 
-
-        <!-- ==================================================
-             BỘ LỌC
-        =================================================== -->
+        <!-- ======================================
+             THANH LỌC VÀ SẮP XẾP
+        ======================================= -->
 
         <div class="product-toolbar">
 
@@ -160,7 +381,6 @@
                     Tất cả
                 </button>
 
-
                 <button
                     type="button"
                     class="filter-button"
@@ -169,7 +389,6 @@
                     Apple
                 </button>
 
-
                 <button
                     type="button"
                     class="filter-button"
@@ -177,7 +396,6 @@
                 >
                     Samsung
                 </button>
-
 
                 <button
                     type="button"
@@ -188,7 +406,6 @@
                 </button>
 
             </div>
-
 
 
             <div class="sort-box">
@@ -218,20 +435,14 @@
         </div>
 
 
+        <!-- ======================================
+             GRID SẢN PHẨM
+        ======================================= -->
 
-        <!-- ==================================================
-             DANH SÁCH SẢN PHẨM
-        =================================================== -->
-
-        <div
-            class="product-list"
-            id="product-list"
-        >
+        <div class="product-list" id="product-list">
 
 
-            <!-- ==================================================
-                 1. IPHONE 16 PRO MAX
-            =================================================== -->
+            <!-- 1. IPHONE 16 PRO MAX -->
 
             <div
                 class="product-card"
@@ -245,34 +456,27 @@
             >
 
                 <div class="product-image">
-
                     <img
                         src="images/iphone-16prm.jpg"
                         alt="iPhone 16 Pro Max"
                     >
-
                 </div>
-
 
                 <p class="product-brand">
                     Apple
                 </p>
 
-
                 <h3>
                     iPhone 16 Pro Max
                 </h3>
-
 
                 <p class="product-spec">
                     256GB
                 </p>
 
-
                 <p class="price">
                     29.990.000đ
                 </p>
-
 
                 <div class="product-actions">
 
@@ -302,10 +506,7 @@
             </div>
 
 
-
-            <!-- ==================================================
-                 2. IPHONE 18 PRO
-            =================================================== -->
+            <!-- 2. IPHONE 18 PRO -->
 
             <div
                 class="product-card"
@@ -319,34 +520,27 @@
             >
 
                 <div class="product-image">
-
                     <img
                         src="images/iphone-18-pro.png"
                         alt="iPhone 18 Pro"
                     >
-
                 </div>
-
 
                 <p class="product-brand">
                     Apple
                 </p>
 
-
                 <h3>
                     iPhone 18 Pro
                 </h3>
-
 
                 <p class="product-spec">
                     256GB
                 </p>
 
-
                 <p class="price">
                     31.990.000đ
                 </p>
-
 
                 <div class="product-actions">
 
@@ -376,10 +570,7 @@
             </div>
 
 
-
-            <!-- ==================================================
-                 3. IPHONE 18 PRO MAX
-            =================================================== -->
+            <!-- 3. IPHONE 18 PRO MAX -->
 
             <div
                 class="product-card"
@@ -393,34 +584,27 @@
             >
 
                 <div class="product-image">
-
                     <img
                         src="images/iphone-18promax.png"
                         alt="iPhone 18 Pro Max"
                     >
-
                 </div>
-
 
                 <p class="product-brand">
                     Apple
                 </p>
 
-
                 <h3>
                     iPhone 18 Pro Max
                 </h3>
-
 
                 <p class="product-spec">
                     256GB
                 </p>
 
-
                 <p class="price">
                     36.990.000đ
                 </p>
-
 
                 <div class="product-actions">
 
@@ -450,10 +634,7 @@
             </div>
 
 
-
-            <!-- ==================================================
-                 4. SAMSUNG GALAXY S25
-            =================================================== -->
+            <!-- 4. SAMSUNG GALAXY S25 -->
 
             <div
                 class="product-card"
@@ -467,34 +648,27 @@
             >
 
                 <div class="product-image">
-
                     <img
                         src="images/samsung-s25.png"
                         alt="Samsung Galaxy S25"
                     >
-
                 </div>
-
 
                 <p class="product-brand">
                     Samsung
                 </p>
 
-
                 <h3>
                     Samsung Galaxy S25
                 </h3>
-
 
                 <p class="product-spec">
                     256GB
                 </p>
 
-
                 <p class="price">
                     22.990.000đ
                 </p>
-
 
                 <div class="product-actions">
 
@@ -524,10 +698,7 @@
             </div>
 
 
-
-            <!-- ==================================================
-                 5. SAMSUNG GALAXY S25 ULTRA
-            =================================================== -->
+            <!-- 5. SAMSUNG GALAXY S25 ULTRA -->
 
             <div
                 class="product-card"
@@ -541,34 +712,27 @@
             >
 
                 <div class="product-image">
-
                     <img
                         src="images/samsung-s25ultra.jpg"
                         alt="Samsung Galaxy S25 Ultra"
                     >
-
                 </div>
-
 
                 <p class="product-brand">
                     Samsung
                 </p>
 
-
                 <h3>
                     Samsung Galaxy S25 Ultra
                 </h3>
-
 
                 <p class="product-spec">
                     256GB
                 </p>
 
-
                 <p class="price">
                     27.990.000đ
                 </p>
-
 
                 <div class="product-actions">
 
@@ -598,10 +762,7 @@
             </div>
 
 
-
-            <!-- ==================================================
-                 6. SAMSUNG GALAXY Z FOLD8
-            =================================================== -->
+            <!-- 6. SAMSUNG GALAXY Z FOLD8 -->
 
             <div
                 class="product-card"
@@ -615,34 +776,27 @@
             >
 
                 <div class="product-image">
-
                     <img
                         src="images/samsung-zfold8.jpg"
                         alt="Samsung Galaxy Z Fold8"
                     >
-
                 </div>
-
 
                 <p class="product-brand">
                     Samsung
                 </p>
 
-
                 <h3>
                     Samsung Galaxy Z Fold8
                 </h3>
-
 
                 <p class="product-spec">
                     512GB
                 </p>
 
-
                 <p class="price">
                     46.990.000đ
                 </p>
-
 
                 <div class="product-actions">
 
@@ -672,10 +826,7 @@
             </div>
 
 
-
-            <!-- ==================================================
-                 7. XIAOMI 15 ULTRA
-            =================================================== -->
+            <!-- 7. XIAOMI 15 ULTRA -->
 
             <div
                 class="product-card"
@@ -689,34 +840,27 @@
             >
 
                 <div class="product-image">
-
                     <img
                         src="images/xiaomi-15ultra.jpg"
                         alt="Xiaomi 15 Ultra"
                     >
-
                 </div>
-
 
                 <p class="product-brand">
                     Xiaomi
                 </p>
 
-
                 <h3>
                     Xiaomi 15 Ultra
                 </h3>
-
 
                 <p class="product-spec">
                     512GB
                 </p>
 
-
                 <p class="price">
                     24.990.000đ
                 </p>
-
 
                 <div class="product-actions">
 
@@ -746,10 +890,7 @@
             </div>
 
 
-
-            <!-- ==================================================
-                 8. XIAOMI 17
-            =================================================== -->
+            <!-- 8. XIAOMI 17 -->
 
             <div
                 class="product-card"
@@ -763,34 +904,27 @@
             >
 
                 <div class="product-image">
-
                     <img
                         src="images/xiaomi-17.jpg"
                         alt="Xiaomi 17"
                     >
-
                 </div>
-
 
                 <p class="product-brand">
                     Xiaomi
                 </p>
 
-
                 <h3>
                     Xiaomi 17
                 </h3>
-
 
                 <p class="product-spec">
                     256GB
                 </p>
 
-
                 <p class="price">
                     19.990.000đ
                 </p>
-
 
                 <div class="product-actions">
 
@@ -820,10 +954,7 @@
             </div>
 
 
-
-            <!-- ==================================================
-                 9. XIAOMI REDMI NOTE 15
-            =================================================== -->
+            <!-- 9. XIAOMI REDMI NOTE 15 -->
 
             <div
                 class="product-card"
@@ -837,34 +968,27 @@
             >
 
                 <div class="product-image">
-
                     <img
                         src="images/xiaomi-redmi-note15.jpg"
                         alt="Xiaomi Redmi Note 15"
                     >
-
                 </div>
-
 
                 <p class="product-brand">
                     Xiaomi
                 </p>
 
-
                 <h3>
                     Xiaomi Redmi Note 15
                 </h3>
-
 
                 <p class="product-spec">
                     256GB
                 </p>
 
-
                 <p class="price">
                     8.990.000đ
                 </p>
-
 
                 <div class="product-actions">
 
@@ -895,13 +1019,17 @@
 
         </div>
 
+        <p style="margin-top:20px;color:#777;font-size:13px;">
+            Giá và một số thông số sản phẩm là dữ liệu
+            minh họa phục vụ đồ án.
+        </p>
+
     </main>
 
 
-
-    <!-- ==================================================
+    <!-- ==========================================
          MODAL CHI TIẾT SẢN PHẨM
-    =================================================== -->
+    =========================================== -->
 
     <div
         id="product-detail-modal"
@@ -913,15 +1041,14 @@
             <span
                 id="close-product-detail"
                 class="close-cart"
+                role="button"
+                tabindex="0"
+                aria-label="Đóng chi tiết sản phẩm"
             >
                 &times;
             </span>
 
-
             <div class="product-detail-layout">
-
-
-                <!-- ẢNH SẢN PHẨM -->
 
                 <div class="product-detail-image">
 
@@ -933,10 +1060,6 @@
 
                 </div>
 
-
-
-                <!-- THÔNG TIN SẢN PHẨM -->
-
                 <div class="product-detail-info">
 
                     <p
@@ -946,11 +1069,9 @@
                         THƯƠNG HIỆU
                     </p>
 
-
                     <h2 id="detail-name">
                         Tên sản phẩm
                     </h2>
-
 
                     <p
                         id="detail-price"
@@ -959,93 +1080,45 @@
                         0đ
                     </p>
 
-
-                    <div class="detail-divider">
-                    </div>
-
+                    <div class="detail-divider"></div>
 
                     <h3>
                         Thông số nổi bật
                     </h3>
 
-
                     <div class="specification-list">
 
-
                         <div class="specification-item">
-
-                            <span>
-                                💾 Bộ nhớ
-                            </span>
-
-                            <strong id="detail-storage">
-                                -
-                            </strong>
-
+                            <span>💾 Bộ nhớ</span>
+                            <strong id="detail-storage">-</strong>
                         </div>
 
-
                         <div class="specification-item">
-
-                            <span>
-                                ⚡ RAM
-                            </span>
-
-                            <strong id="detail-ram">
-                                -
-                            </strong>
-
+                            <span>⚡ RAM</span>
+                            <strong id="detail-ram">-</strong>
                         </div>
 
-
                         <div class="specification-item">
-
-                            <span>
-                                📱 Màn hình
-                            </span>
-
-                            <strong id="detail-screen">
-                                -
-                            </strong>
-
+                            <span>📱 Màn hình</span>
+                            <strong id="detail-screen">-</strong>
                         </div>
 
-
                         <div class="specification-item">
-
-                            <span>
-                                📷 Camera
-                            </span>
-
-                            <strong id="detail-camera">
-                                -
-                            </strong>
-
+                            <span>📷 Camera</span>
+                            <strong id="detail-camera">-</strong>
                         </div>
 
-
                         <div class="specification-item">
-
-                            <span>
-                                🎨 Màu sắc
-                            </span>
-
-                            <strong id="detail-color">
-                                -
-                            </strong>
-
+                            <span>🎨 Màu sắc</span>
+                            <strong id="detail-color">-</strong>
                         </div>
 
                     </div>
 
-
-
-                    <!-- CHÍNH SÁCH -->
-
                     <div class="detail-policy">
 
                         <p>
-                            ✓ Sản phẩm chính hãng
+                            ✓ Hỗ trợ tư vấn sản phẩm
                         </p>
 
                         <p>
@@ -1053,11 +1126,10 @@
                         </p>
 
                         <p>
-                            ✓ Giao hàng toàn quốc
+                            ✓ Hỗ trợ giao hàng toàn quốc
                         </p>
 
                     </div>
-
 
                     <button
                         type="button"
@@ -1076,10 +1148,9 @@
     </div>
 
 
-
-    <!-- ==================================================
+    <!-- ==========================================
          THANH SO SÁNH SẢN PHẨM
-    =================================================== -->
+    =========================================== -->
 
     <div
         id="compare-bar"
@@ -1100,7 +1171,6 @@
 
             </div>
 
-
             <div class="compare-bar-actions">
 
                 <button
@@ -1109,7 +1179,6 @@
                 >
                     Xóa tất cả
                 </button>
-
 
                 <button
                     type="button"
@@ -1126,10 +1195,9 @@
     </div>
 
 
-
-    <!-- ==================================================
-         MODAL SO SÁNH SẢN PHẨM
-    =================================================== -->
+    <!-- ==========================================
+         MODAL SO SÁNH
+    =========================================== -->
 
     <div
         id="compare-modal"
@@ -1141,42 +1209,29 @@
             <span
                 id="close-compare"
                 class="close-cart"
+                role="button"
+                tabindex="0"
+                aria-label="Đóng bảng so sánh"
             >
                 &times;
             </span>
-
 
             <h2>
                 ⚖️ So sánh sản phẩm
             </h2>
 
-
             <p class="compare-description">
                 So sánh thông số giữa các điện thoại đã chọn
             </p>
-
 
             <div class="compare-table-wrapper">
 
                 <table id="compare-table">
 
                     <thead id="compare-table-head">
-
-                        <!--
-                            JavaScript sẽ tự tạo
-                            tên và ảnh sản phẩm tại đây
-                        -->
-
                     </thead>
 
-
                     <tbody id="compare-table-body">
-
-                        <!--
-                            JavaScript sẽ tự tạo
-                            bảng thông số tại đây
-                        -->
-
                     </tbody>
 
                 </table>
@@ -1188,10 +1243,9 @@
     </div>
 
 
-
-    <!-- ==================================================
-         GIỎ HÀNG
-    =================================================== -->
+    <!-- ==========================================
+         MODAL GIỎ HÀNG
+    =========================================== -->
 
     <div
         id="cart-modal"
@@ -1203,39 +1257,31 @@
             <span
                 id="close-cart"
                 class="close-cart"
+                role="button"
+                tabindex="0"
+                aria-label="Đóng giỏ hàng"
             >
                 &times;
             </span>
-
 
             <h2>
                 🛒 Giỏ hàng của bạn
             </h2>
 
-
             <div id="cart-items">
-
-                <p>
-                    Giỏ hàng đang trống.
-                </p>
-
+                <p>Giỏ hàng đang trống.</p>
             </div>
-
 
             <div class="cart-total">
 
                 <strong>
-
                     Tổng tiền:
-
                     <span id="cart-total">
                         0đ
                     </span>
-
                 </strong>
 
             </div>
-
 
             <button
                 type="button"
@@ -1249,10 +1295,9 @@
     </div>
 
 
-
-    <!-- ==================================================
-         FORM ĐẶT HÀNG
-    =================================================== -->
+    <!-- ==========================================
+         MODAL THANH TOÁN
+    =========================================== -->
 
     <div
         id="checkout-modal"
@@ -1264,20 +1309,18 @@
             <span
                 id="close-checkout"
                 class="close-cart"
+                role="button"
+                tabindex="0"
+                aria-label="Đóng thanh toán"
             >
                 &times;
             </span>
-
 
             <h2>
                 📦 Thông tin đặt hàng
             </h2>
 
-
             <form id="checkout-form">
-
-
-                <!-- HỌ TÊN -->
 
                 <label for="customer-name">
                     Họ và tên
@@ -1287,12 +1330,9 @@
                     type="text"
                     id="customer-name"
                     placeholder="Nhập họ và tên"
+                    autocomplete="name"
                     required
                 >
-
-
-
-                <!-- SỐ ĐIỆN THOẠI -->
 
                 <label for="customer-phone">
                     Số điện thoại
@@ -1303,12 +1343,10 @@
                     id="customer-phone"
                     placeholder="Ví dụ: 0912345678"
                     maxlength="10"
+                    pattern="0[0-9]{9}"
+                    autocomplete="tel"
                     required
                 >
-
-
-
-                <!-- ĐỊA CHỈ -->
 
                 <label for="customer-address">
                     Địa chỉ nhận hàng
@@ -1317,12 +1355,9 @@
                 <textarea
                     id="customer-address"
                     placeholder="Nhập địa chỉ nhận hàng"
+                    autocomplete="street-address"
                     required
                 ></textarea>
-
-
-
-                <!-- THANH TOÁN -->
 
                 <label for="payment-method">
                     Phương thức thanh toán
@@ -1347,7 +1382,6 @@
 
                 </select>
 
-
                 <button
                     type="submit"
                     id="confirm-order-button"
@@ -1362,27 +1396,105 @@
     </div>
 
 
+    <!-- ==========================================
+         NHÂN VIÊN VÀ QUẢN TRỊ VIÊN
+    =========================================== -->
 
-    <!-- ==================================================
+    <section
+        class="container management-section"
+        id="management"
+    >
+
+        <h2>
+            ⚙️ Hệ thống quản lý PHONE MDZ
+        </h2>
+
+        <div class="management-panel">
+
+            <p>
+                Các chức năng dưới đây thuộc hệ thống
+                Node.js chạy tại localhost:3000.
+                Người sử dụng phải đăng nhập bằng tài khoản
+                có quyền tương ứng. Đây là các trang quản lý
+                riêng, không phải chức năng công khai
+                của trang HTML này.
+            </p>
+
+            <div class="management-links">
+
+                <a href="http://localhost:3000/staff/dashboard">
+                    👨‍💼 Nhân viên bán hàng
+                </a>
+
+                <a href="http://localhost:3000/staff/orders/create">
+                    🧾 Tạo đơn hộ khách
+                </a>
+
+                <a href="http://localhost:3000/staff/stock">
+                    📦 Xem tồn kho
+                </a>
+
+                <a href="http://localhost:3000/admin/dashboard">
+                    🛠️ Quản trị viên
+                </a>
+
+                <a href="http://localhost:3000/admin/products">
+                    📱 Quản lý sản phẩm
+                </a>
+
+                <a href="http://localhost:3000/admin/categories">
+                    📂 Quản lý danh mục
+                </a>
+
+                <a href="http://localhost:3000/admin/orders">
+                    📋 Quản lý đơn hàng
+                </a>
+
+                <a href="http://localhost:3000/admin/users">
+                    👥 Quản lý tài khoản
+                </a>
+
+                <a href="http://localhost:3000/admin/vouchers">
+                    🎟️ Quản lý voucher
+                </a>
+
+                <a href="http://localhost:3000/admin/reports">
+                    📊 Thống kê doanh thu
+                </a>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ==========================================
          FOOTER
-    =================================================== -->
+    =========================================== -->
 
     <footer>
 
         <p>
-            © 2026 Phone Store - Website bán điện thoại
+            © 2026 PHONE MDZ - Website bán điện thoại và phụ kiện
+        </p>
+
+        <p class="footer-details">
+            Đồ án kỳ - Nguyễn Minh Đức - MSSV: 523100019
+        </p>
+
+        <p class="footer-details">
+            Trường Đại học Phương Đông
         </p>
 
     </footer>
 
 
-
-    <!-- ==================================================
+    <!-- ==========================================
          JAVASCRIPT
-    =================================================== -->
+    =========================================== -->
 
     <script src="js/main.js"></script>
 
 </body>
-
 </html>
